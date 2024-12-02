@@ -1,0 +1,164 @@
+.header {
+    height: 60px;
+    background-color: rgb(177 176 176 / 44%);
+    display: flex;
+    align-items: center;
+    box-shadow: inset rgb(0 0 0 / 50%) -9px -6px 11px, inset rgb(255 255 255 / 90%) 11px 7px 8px, rgb(0 0 0 / 90%) 1px 7px 17px 0px;
+    z-index: 2;
+}
+
+.headerContainer {
+    display: flex;
+    align-items: center;
+    width: 260px;
+    margin: 0 auto;
+    justify-content: space-between;
+}
+
+.logo {
+    width: 60px;
+}
+
+.nav {
+    display: none;
+}
+
+.burgerMenu {
+    cursor: pointer;
+    width: 30px;
+    height: 30px;
+}
+
+.display {
+    display: none;
+}
+
+.list {
+    display: none;
+}
+
+.buttonExit {
+    display: none;
+}
+
+.text {
+    display: none;
+}
+
+
+@media screen and (min-width: 768px) {
+
+    .header {
+        height: 80px;
+    }
+
+    .headerContainer {
+        width: 708px;
+    }
+
+    .nav {
+        display: flex;
+        margin-right: 50px;
+    }
+
+    .link:not(:last-child) {
+        margin-right: 20px;
+    }
+
+    .navLink {
+        color: black;
+        font-size: 15px;
+        font-weight: 500;
+        line-height: 1.22;
+        font-family: 'Montserrat';
+    }
+
+    .activeLink {
+        position: relative;
+        color: black;
+        font-size: 15px;
+        font-weight: 500;
+        line-height: 1.22;
+        font-family: 'Montserrat';
+
+    }
+
+    .activeLink::after {
+        content: '';
+        position: absolute;
+        bottom: -5px;
+        border: 1px solid #009cff;
+        background-color: #009cff;
+        width: 100%;
+        left: 0;
+    }
+
+    .logo {
+        width: 80px;
+    }
+
+    .burgerMenu {
+        display: none;
+    }
+
+    .list {
+        list-style: none;
+        display: flex;
+        padding: 0;
+        margin-left: auto;
+    }
+
+    .item:not(:last-child) {
+        margin-right: 40px;
+    }
+
+    .buttonExit {
+        border: none;
+        background-color: transparent;
+        cursor: pointer;
+        display: flex;
+        position: relative;
+    }
+
+    .buttonExit::before {
+        content: "";
+        top: -14px;
+        border-left: 1px solid grey;
+        height: 55px;
+        position: absolute;
+        left: -15px;
+    }
+
+    .svgButton {
+        font-size: 25px;
+    }
+
+    .text {
+        display: block;
+        color: black;
+        min-width: 180px;
+        margin: 0 auto;
+        font-weight: 500;
+        line-height: 1.22;
+        font-family: 'Montserrat';
+        font-size: 20px;
+        text-align: center;
+    }
+}
+
+@media screen and (min-width: 1280px) {
+    .header {
+        height: 100px;
+    }
+
+    .headerContainer {
+        width: 1220px;
+    }
+
+    .link {
+        color: black;
+        font-size: 26px;
+        line-height: 1.22;
+        font-family: 'Montserrat';
+    }
+}

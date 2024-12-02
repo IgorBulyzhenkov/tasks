@@ -1,0 +1,69 @@
+version: '4.3'
+services:
+  app:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: laravel_app
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./backend:/var/www/html
+    networks:
+      - laravel_net
+    environment:
+      - DB_CONNECTION=pgsql
+      - DB_HOST=db
+      - DB_PORT=5432
+      - DB_DATABASE=laravel
+      - DB_USERNAME=laravel
+      - DB_PASSWORD=secret
+
+  db:
+    image: postgres:15
+    container_name: laravel_db
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: laravel
+      POSTGRES_PASSWORD: secret
+      POSTGRES_DB: laravel
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    networks:
+      - laravel_net
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: react_frontend
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    networks:
+      - laravel_net
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: laravel_pgadmin
+    ports:
+      - "5050:80"
+    environment:
+      PGADMIN_DEFAULT_EMAIL: sd_solutions@example.com
+      PGADMIN_DEFAULT_PASSWORD: sd_solutions
+    depends_on:
+      - db
+    networks:
+      - laravel_net
+
+networks:
+  laravel_net:
+    driver: bridge
+
+volumes:
+  db_data:
