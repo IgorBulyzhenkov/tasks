@@ -2,6 +2,9 @@ import {useState} from "react";
 import {useDispatch} from "react-redux";
 import {toast} from 'react-toastify';
 import s from "./Login.module.css";
+import user from '../../redux/user/user-operation';
+
+const { login } = user;
 
 function LoginForm() {
     const [password, setPassword] = useState("");
@@ -16,20 +19,25 @@ function LoginForm() {
     const handeSubmit = (e) => {
         e.preventDefault();
 
-        let message = '';
-
-        if (email.trim() === "" || password.trim() === "") {
-            // dispatch('');
-        }
-
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        let message = '';
 
         if (!emailRegex.test(email)) {
             message = 'Please enter a valid email';
         }
 
+
         if (!email || !password) {
             message = 'Email and password is required';
+        }
+
+        if(password.length < 6){
+            message = 'Password must be at least 6 characters';
+        }
+
+        if (email.trim() !== "" && password.trim() !== "" && password.length >= 6 && message.trim() === '') {
+            dispatch(login({email, password, reset}));
+            return;
         }
 
         toast.error(message, {
@@ -40,7 +48,7 @@ function LoginForm() {
             pauseOnHover: true,
             draggable: true,
             progress: undefined,
-            theme: "dark",
+            theme: "light",
         });
     }
 

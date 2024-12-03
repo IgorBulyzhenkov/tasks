@@ -16,7 +16,7 @@ import userSlice from "./user/user-slice";
 const userPersistor = {
     key: "user",
     storage,
-    whitelist: ["token", "email", "name", "nickName", "verify", "verificationToken"],
+    whitelist: ["token", "email", "name", "nickName", "verify", "verificationToken", "isLoggedIn"],
 };
 
 const store = configureStore({

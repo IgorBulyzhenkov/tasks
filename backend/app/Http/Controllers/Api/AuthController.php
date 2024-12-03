@@ -3,15 +3,29 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Services\Api\AuthService;
 use Illuminate\Http\Request;
 
 class AuthController extends Controller
 {
-    public function login(Request $request){
+    protected AuthService $authService;
+
+    public function __construct(AuthService $authService){
+        $this->authService = $authService;
+    }
+
+    public function login(Request $request): \Illuminate\Http\JsonResponse
+    {
+        return $this->authService->auth($request);
+    }
+
+    public function logout(Request $request): \Illuminate\Http\JsonResponse
+    {
+        $request->user()->currentAccessToken()->delete();
+
         return response()->json([
             'success' => true,
-            'message' => 'Login successfully',
-            'data' => $request->all()
-        ],200);
+            'message' => 'Logout successfully'
+        ], 200);
     }
 }

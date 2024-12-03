@@ -1,28 +1,28 @@
 import { useSelector } from "react-redux";
 import Container from "../component/Container/Container";
 import {getName, getNickName, getEmail} from "../redux/user/user-selectors";
+import s from "./HomePage.module.css";
 
 function HomePage() {
-    const name = useSelector(getName);
-    const nickName = useSelector(getNickName);
-    const email = useSelector(getEmail);
+    const name      = useSelector(getName);
+    const nickName  = useSelector(getNickName);
+    const email     = useSelector(getEmail);
 
     return (
-        <main>
+        <main className={s.main}>
             <Container>
-                <div>HomePage</div>
-                <ul>
-                    <li>
-                        <p>User Name</p>
-                        <p>{name}</p>
+                <ul className={s.list}>
+                    <li className={s.item}>
+                        <p className={s.text}>User Name</p>
+                        <p className={s.textUser}>{name}</p>
                     </li>
-                    <li>
-                        <p>User nick name</p>
-                        <p>{nickName}</p>
+                    <li className={s.item}>
+                        <p className={s.text}>User nick name</p>
+                        <p className={s.textUser}>{nickName}</p>
                     </li>
-                    <li>
-                        <p>Email</p>
-                        <p>{email}</p>
+                    <li className={s.item}>
+                        <p className={s.text}>Email</p>
+                        <p className={s.textUser}>{email}</p>
                     </li>
                 </ul>
             </Container>

@@ -5,7 +5,8 @@ const {
     regUser,
     sendEmailAgain,
     verifyEmailUser,
-    logOutUser
+    logOutUser,
+    login
 } = user;
 
 const initialState = {
@@ -77,7 +78,7 @@ const userSlice = createSlice({
             })
 
         builder
-            .addCase(logOutUser.fulfilled, (state, {payload}) => {
+            .addCase(logOutUser.fulfilled, (state) => {
                 state.name                  = null;
                 state.nickName              = null;
                 state.email                 = null;
@@ -92,6 +93,25 @@ const userSlice = createSlice({
                 state.isRefreshing          = false;
             })
             .addCase(logOutUser.pending, (state) => {
+                state.error                 = null;
+                state.isRefreshing          = true;
+            });
+
+        builder
+            .addCase(login.fulfilled, (state, {payload})=> {
+                state.name                  = payload.data.data.name;
+                state.nickName              = payload.data.data.nickName;
+                state.email                 = payload.data.data.email;
+                state.isRefreshing          = false;
+                state.token                 = payload.data.data.token;
+                state.verify                = payload.data.data.verify;
+                state.isLoggedIn            = true;
+            })
+            .addCase(login.rejected, (state, {payload})=> {
+                state.error                 = payload?.error || "An unknown error occurred";
+                state.isRefreshing          = false;
+            })
+            .addCase(login.pending, (state) => {
                 state.error                 = null;
                 state.isRefreshing          = true;
             });

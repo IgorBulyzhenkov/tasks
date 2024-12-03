@@ -7,6 +7,7 @@ import {MdMenu, MdOutlineExitToApp} from "react-icons/md";
 import {useDispatch, useSelector} from "react-redux";
 import {getInLoggedIn, getName} from "../../redux/user/user-selectors";
 import user from '../../redux/user/user-operation';
+import MobMenu from "../MobMenu/MobMenu";
 
 const { logOutUser } = user;
 
@@ -56,6 +57,14 @@ function Header() {
                                     </li>
                                 </ul>
                             </nav>
+                            <button
+                                type="button"
+                                onClick={handleClick}
+                                className={s.buttonExit}
+                            >
+                                <MdOutlineExitToApp className={s.svgButton}/>
+                            </button>
+
                         </>) : (
                         <>
                             <ul className={s.list}>
@@ -82,15 +91,8 @@ function Header() {
                                 </li>
                             </ul>
                         </>)}
-                    <button
-                        type="button"
-                        onClick={handleClick}
-                        className={s.buttonExit}
-                    >
-                        <MdOutlineExitToApp className={s.svgButton}/>
-                    </button>
 
-                    <div className={s.menu}>
+                    <div>
                         <MdMenu
                             className={!toggle ? s.burgerMenu : s.display}
                             onClick={toggleClick}
@@ -98,6 +100,7 @@ function Header() {
                     </div>
                 </div>
             </Container>
+            <div>{toggle ? <MobMenu setToggle={setToggle}/> : null}</div>
         </header>
     );
 }

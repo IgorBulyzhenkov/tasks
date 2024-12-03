@@ -8,5 +8,5 @@ export const token = {
     },
     unset() {
         axios.defaults.headers.common.Authorization = "";
-    },
+    }
 };

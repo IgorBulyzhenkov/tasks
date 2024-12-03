@@ -24,11 +24,6 @@ function Registry() {
     const handeSubmit = (e) => {
         e.preventDefault();
 
-        if (name && nickName && email && password) {
-            dispatch(regUser({name, nickName, email, password, reset}));
-            return;
-        }
-
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         let message = '';
 
@@ -38,6 +33,15 @@ function Registry() {
 
         if (!email || !password || !name || !nickName) {
             message = 'Email, name, nickname and password is required';
+        }
+
+        if(password.length < 6){
+            message = 'Password must be at least 6 characters';
+        }
+
+        if (name.trim() && nickName.trim() && email.trim() && password.trim() && password.length >= 6 && message.trim() === '') {
+            dispatch(regUser({name, nickName, email, password, reset}));
+            return;
         }
 
         toast.error(message, {

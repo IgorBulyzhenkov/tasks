@@ -1,0 +1,49 @@
+.main {
+    padding-top: 50px;
+    padding-bottom: 50px;
+}
+
+@media screen and (min-width:768px) {
+    .main {
+        padding-top: 100px;
+        width: 768px;
+        margin: 0 auto;
+    }
+}
+
+@media screen and (min-width:1280px) {
+    .main {
+        width: 1280px;
+    }
+}
+
+.list{
+    list-style: none;
+    font-size: 25px;
+    padding: 0;
+}
+
+.item{
+    border: 1px solid grey;
+}
+
+.text{
+    font-weight: 400;
+    min-width: 200px;
+    text-align: center;
+}
+
+@media screen and (min-width:768px) {
+    .item{
+        display: flex;
+    }
+
+    .text{
+        text-align: left;
+    }
+
+}
+
+.textUser{
+    font-weight: 600;
+}
