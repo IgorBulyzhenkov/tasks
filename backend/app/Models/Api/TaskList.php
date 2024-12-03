@@ -27,6 +27,16 @@ class TaskList extends Model
 
     public function tasks(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
-        return $this->hasMany(Task::class, 'fk_task_list');
+        return $this->hasMany(Tasks::class, 'fk_task_list');
+    }
+
+    public static function boot(): void
+    {
+
+        static::deleting(function($model){
+            $model->tasks()->delete();
+        });
+
+        parent::boot();
     }
 }
