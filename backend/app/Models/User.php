@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Api\TaskList;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -26,6 +27,11 @@ class User extends Authenticatable
         'verification_token',
         'email_verified_at'
     ];
+
+    public function taskList(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(TaskList::class, 'fk_user');
+    }
 
     /**
      * The attributes that should be hidden for serialization.
