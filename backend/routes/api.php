@@ -4,6 +4,7 @@ use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\RegisterController;
 use App\Http\Controllers\Api\SendAgainController;
 use App\Http\Controllers\Api\TaskListController;
+use App\Http\Controllers\Api\TasksController;
 use App\Http\Controllers\Api\VerifyController;
 use App\Http\Middleware\Api\ValidateToken;
 use Illuminate\Support\Facades\Route;
@@ -38,6 +39,14 @@ Route::prefix('/v1')->group(function () {
             Route::post('/',                [TaskListController::class, 'store']);
             Route::put('/{id}',             [TaskListController::class, 'update']);
             Route::delete('/{id}',          [TaskListController::class, 'destroy']);
+        });
+
+        Route::prefix('/tasks')->group(function () {
+            Route::get('/',                 [TasksController::class, 'index']);
+            Route::get('/{id}',             [TasksController::class, 'show']);
+            Route::post('/',                [TasksController::class, 'store']);
+            Route::put('/{id}',             [TasksController::class, 'update']);
+            Route::delete('/{id}',          [TasksController::class, 'destroy']);
         });
     });
 });
