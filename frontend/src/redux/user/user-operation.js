@@ -11,7 +11,7 @@ const regUser = createAsyncThunk('user/regUser', async ({name, nickName, email, 
     try {
         const { data } = await axios.post('/auth/signup', body);
         reset();
-        getToastSuccess(`User ${name} added successfully.` );
+        getToastSuccess(`User ${name} added successfully.`);
         return data;
     }catch(error){
         getCheckoutError(error);
