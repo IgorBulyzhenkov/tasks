@@ -154,7 +154,7 @@ class TaskListService extends BaseApiService
                 'description'   => $task_list->description,
                 'created_at'    => $task_list->created_at->format('d/m/Y H:i'),
                 'is_completed'  => $task_list->is_completed,
-                'user'          => $taskListToUser->user->name
+                'user'          => $task_list->fkUser->name
             ]
         ], 200);
     }
