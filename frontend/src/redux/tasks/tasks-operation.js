@@ -3,13 +3,13 @@ import { toast } from "react-toastify";
 import axios from "axios";
 import {token} from "../axios";
 
-const getTaskList = createAsyncThunk('taskList/getTaskList', async ({ page, limit } ,{rejectWithValue, getState}) => {
+const getTasks = createAsyncThunk('tasks/getTasks', async ({ page, limit } ,{rejectWithValue, getState}) => {
     const state = getState();
     const persistorToken = state.user.token;
     if (persistorToken !== null ) token.set(persistorToken);
 
     try {
-        const { data } = await axios.get('/task-list', {
+        const { data } = await axios.get('/tasks', {
             params: {
                 page,
                 limit
@@ -22,13 +22,13 @@ const getTaskList = createAsyncThunk('taskList/getTaskList', async ({ page, limi
     }
 });
 
-const getOneTaskList = createAsyncThunk('taskList/getOneTaskList', async ({ id }, {rejectWithValue, getState}) => {
+const getOneTasks = createAsyncThunk('tasks/getOneTasks', async ({ id }, {rejectWithValue, getState}) => {
     const state = getState();
     const persistorToken = state.user.token;
     if (persistorToken !== null ) token.set(persistorToken);
 
     try {
-        const { data } = await axios.get(`/task-list/${id}`);
+        const { data } = await axios.get(`/tasks/${id}`);
         return data;
     }catch(error) {
         getCheckoutError(error);
@@ -36,7 +36,7 @@ const getOneTaskList = createAsyncThunk('taskList/getOneTaskList', async ({ id }
     }
 });
 
-const createTaskList = createAsyncThunk('taskList/createTaskList', async ({ name, description, is_completed, reset, setToggle }, {rejectWithValue, getState}) => {
+const createTasks = createAsyncThunk('tasks/createTasks', async ({ name, description, is_completed, reset, setToggle }, {rejectWithValue, getState}) => {
     const state = getState();
     const persistorToken = state.user.token;
     if (persistorToken !== null ) token.set(persistorToken);
@@ -48,8 +48,8 @@ const createTaskList = createAsyncThunk('taskList/createTaskList', async ({ name
     }
 
     try {
-        const { data } = await axios.post(`/task-list/`, body);
-        getToastSuccess('Create task list successfully!');
+        const { data } = await axios.post(`/tasks/`, body);
+        getToastSuccess('Create task s successfully!');
 
         setToggle(false);
         reset();
@@ -61,7 +61,7 @@ const createTaskList = createAsyncThunk('taskList/createTaskList', async ({ name
     }
 });
 
-const updateTaskList = createAsyncThunk('taskList/updateTaskList', async ({ id, name, description, is_completed, reset }, {rejectWithValue, getState}) => {
+const updateTasks = createAsyncThunk('tasks/updateTasks', async ({ id, name, description, is_completed, reset }, {rejectWithValue, getState}) => {
     const state = getState();
     const persistorToken = state.user.token;
     if (persistorToken !== null ) token.set(persistorToken);
@@ -73,8 +73,8 @@ const updateTaskList = createAsyncThunk('taskList/updateTaskList', async ({ id, 
     }
 
     try {
-        const { data } = await axios.put(`/task-list/${id}`, body);
-        getToastSuccess('Update task list successfully!');
+        const { data } = await axios.put(`/tasks/${id}`, body);
+        getToastSuccess('Update task s successfully!');
         reset();
         return data;
     }catch(error) {
@@ -83,15 +83,15 @@ const updateTaskList = createAsyncThunk('taskList/updateTaskList', async ({ id, 
     }
 });
 
-const destroyTaskList = createAsyncThunk('taskList/destroyTaskList', async ({ id } ,{rejectWithValue, getState}) => {
+const destroyTasks = createAsyncThunk('tasks/destroyTasks', async ({ id } ,{rejectWithValue, getState}) => {
     const state = getState();
     const persistorToken = state.user.token;
     if (persistorToken !== null ) token.set(persistorToken);
 
     try {
-        const { data } = await axios.delete(`/task-list/${id}`);
+        const { data } = await axios.delete(`/tasks/${id}`);
 
-        getToastSuccess('Deleted task list successfully!');
+        getToastSuccess('Deleted task s successfully!');
 
         return data;
     }catch(error) {
@@ -140,12 +140,12 @@ function getToastSuccess(message){
     });
 }
 
-const taskList = {
-    getTaskList,
-    getOneTaskList,
-    createTaskList,
-    updateTaskList,
-    destroyTaskList
+const tasks = {
+    getTasks,
+    getOneTasks,
+    createTasks,
+    updateTasks,
+    destroyTasks
 };
 
-export default taskList;
+export default tasks;

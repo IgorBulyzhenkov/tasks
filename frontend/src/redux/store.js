@@ -13,6 +13,7 @@ import {
 } from "redux-persist";
 import userSlice from "./user/user-slice";
 import taskList from "./task_list/task_list-slice";
+import tasks from "./tasks/tasks-slice";
 
 const userPersistor = {
     key: "user",
@@ -23,7 +24,8 @@ const userPersistor = {
 const store = configureStore({
     reducer: {
         user: persistReducer(userPersistor, userSlice),
-        task_list: taskList
+        task_list: taskList,
+        tasks
     },
     middleware: (getDefaultMiddleware) =>
         getDefaultMiddleware({

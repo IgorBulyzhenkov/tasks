@@ -1,0 +1,12 @@
+export const getDataTasks = (state) => state?.tasks?.tasksData;
+export const getTasksId = (state) => state?.tasks?.id;
+export const getTasksDescription= (state) => state?.tasks?.description;
+export const getTasksIsCompleted = (state) => state?.tasks?.is_completed;
+export const getTasksUserCreated = (state) => state?.tasks?.userName;
+export const getTasksCreatedAt = (state) => state?.tasks?.created_at;
+export const getTasksName = (state) => state?.tasks?.name;
+export const getIsLoading = (state) => state.tasks.isLoading;
+export const getTasksCurrentPage = (state) => state.tasks?.current_page;
+export const getTasksTotalPage = (state) => state.tasks?.total_pages;
+export const getTasksTotalRecords = (state) => state.tasks?.total_records;
+export const getTasksLimit = (state) => state.tasks.limit;
