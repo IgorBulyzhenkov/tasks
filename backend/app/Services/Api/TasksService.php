@@ -5,13 +5,14 @@ namespace App\Services\Api;
 use App\Http\Requests\Api\TasksPostRequest;
 use App\Http\Requests\Api\TasksPutRequest;
 use App\Models\Api\Tasks;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
-class TasksService
+class TasksService extends BaseApiService
 {
     public function getTasks($request): \Illuminate\Http\JsonResponse
     {
-        $taskListExists = Tasks::where('id', $request->query('fk_task_list'))->exists();
+        $taskListExists = Tasks::where('fk_task_list', $request->query('fk_task_list'))->exists();
 
         if (!$taskListExists) {
             return response()->json([
@@ -66,36 +67,57 @@ class TasksService
 
     public function createTasks($tasks): \Illuminate\Http\JsonResponse
     {
-        $request = new TasksPostRequest();
+        try {
 
-        $rules = $request->rules();
+            DB::beginTransaction();
 
-        $validator = Validator::make($tasks->all(), $rules);
+            $request = new TasksPostRequest();
 
-        if($validator->fails()){
+            $rules = $request->rules();
+
+            $validator = Validator::make($tasks->all(), $rules);
+
+            if ($validator->fails()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => $validator->errors()->getMessages()
+                ], 400);
+            }
+
+            $taskListToUser = $this->getUserPermission($tasks->fk_task_list, ['full']);
+
+            if ($taskListToUser) {
+                return $taskListToUser;
+            }
+
+            $tasksModel = new Tasks();
+
+            $tasksModel->fill([
+                'title'         => $tasks->title,
+                'description'   => $tasks->description,
+                'fk_task_list'  => $tasks->fk_task_list,
+                'is_completed'  => $tasks->is_completed,
+                'fk_user'       => auth()->id()
+            ]);
+
+            $tasksModel->save();
+
+            DB::commit();
+
             return response()->json([
-                'success'   => false,
-                'message'   => $validator->errors()->getMessages()
-            ], 400);
+                'success' => true,
+                'data' => [
+                    'id' => $tasksModel->id
+                ]
+            ], 201);
+
+        } catch (\Exception $exception) {
+            DB::rollBack();
+            return response()->json([
+                'success' => false,
+                'message' => $exception->getMessage()
+            ],400);
         }
-
-        $tasksModel = new Tasks();
-
-        $tasksModel->fill([
-            'title'         => $tasks->title,
-            'description'   => $tasks->description,
-            'fk_task_list'  => $tasks->fk_task_list,
-            'is_completed'  => $tasks->is_completed
-        ]);
-
-        $tasksModel->save();
-
-        return response()->json([
-            'success'   => true,
-            'data'      => [
-                'id'    =>  $tasksModel->id
-            ]
-        ], 201);
     }
 
     public function showTasks($id): \Illuminate\Http\JsonResponse
@@ -110,6 +132,12 @@ class TasksService
                 'success'   => false,
                 'message'   => 'Not found'
             ], 404);
+        }
+
+        $taskListToUser = $this->getUserPermission($tasks->fk_task_list, ['full', 'edit', 'view']);
+
+        if($taskListToUser){
+            return $taskListToUser;
         }
 
         return response()->json([
@@ -137,6 +165,12 @@ class TasksService
                 'success'   => false,
                 'message'   => 'Not found'
             ], 404);
+        }
+
+        $taskListToUser = $this->getUserPermission($tasksModel->fk_task_list, ['full', 'edit']);
+
+        if($taskListToUser){
+            return $taskListToUser;
         }
 
         $request    = new TasksPutRequest();
@@ -178,6 +212,12 @@ class TasksService
                 'success'   => false,
                 'message'   => 'Not found'
             ], 404);
+        }
+
+        $taskListToUser = $this->getUserPermission($tasksModel->fk_task_list, ['full']);
+
+        if($taskListToUser){
+            return $taskListToUser;
         }
 
         $tasksModel->delete();
