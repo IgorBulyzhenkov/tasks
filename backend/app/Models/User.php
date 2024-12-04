@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use App\Models\Api\TaskList;
+use App\Models\Api\TaskListUser;
+use App\Models\Api\TasksUser;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -30,7 +32,17 @@ class User extends Authenticatable
 
     public function taskList(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
-        return $this->hasMany(TaskList::class, 'fk_user');
+        return $this->hasMany(TaskList::class, 'fk_task_list');
+    }
+
+    public function tasks(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    {
+        return $this->belongsToMany(TasksUser::class, 'tasks_user', 'fk_user', 'fk_task');
+    }
+
+    public function taskListUser(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(TaskListUser::class, 'fk_user');
     }
 
     /**
