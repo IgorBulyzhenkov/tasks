@@ -1,17 +1,17 @@
 import { createSlice } from "@reduxjs/toolkit";
-import taskList from './task_list-operation';
+import tasks from './task_s-operation';
 
 const {
-    getTaskList,
-    getOneTaskList,
-    createTaskList,
-    updateTaskList,
-    destroyTaskList
-} = taskList;
+    getTasks,
+    getOneTasks,
+    createTasks,
+    updateTasks,
+    destroyTasks
+} = tasks;
 
 const initialState = {
-    taskListData: [],
-    name: '',
+    tasksData: [],
+    title: '',
     description: "",
     is_completed: false,
     permission: false,
@@ -27,13 +27,13 @@ const initialState = {
     current_page: null
 }
 
-const taskListSlice = createSlice({
-    name: "taskList",
+const tasksSlice = createSlice({
+    name: "tasks",
     initialState,
     extraReducers: (builder) => {
         builder
-            .addCase(getTaskList.fulfilled, (state, {payload}) => {
-                state.taskListData  = payload.data.data;
+            .addCase(getTasks.fulfilled, (state, {payload}) => {
+                state.tasksData     = payload.data.data;
                 state.userName      = '';
                 state.isError       = null;
                 state.isLoading     = true;
@@ -43,21 +43,21 @@ const taskListSlice = createSlice({
                 state.limit         = payload.data.limit;
                 state.current_page  = payload.data.current_page;
             })
-            .addCase(getTaskList.rejected, (state, { payload } ) => {
+            .addCase(getTasks.rejected, (state, { payload } ) => {
                 state.isError       = payload?.error || "An unknown error occurred";
                 state.isLoading     = false;
                 state.isRefreshing  = false;
             })
-            .addCase(getTaskList.pending, (state) => {
+            .addCase(getTasks.pending, (state) => {
                 state.isError       = null;
                 state.isLoading     = false;
                 state.isRefreshing  = true;
             })
 
         builder
-            .addCase(getOneTaskList.fulfilled, (state, {payload}) => {
+            .addCase(getOneTasks.fulfilled, (state, {payload}) => {
                 state.id            = payload.data.id;
-                state.name          = payload.data.name;
+                state.title         = payload.data.title;
                 state.description   = payload.data.description;
                 state.is_completed  = payload.data.is_completed;
                 state.permission    = payload.data.permission;
@@ -67,21 +67,21 @@ const taskListSlice = createSlice({
                 state.isLoading     = true;
                 state.isRefreshing  = false;
             })
-            .addCase(getOneTaskList.rejected, (state, { payload } ) => {
+            .addCase(getOneTasks.rejected, (state, { payload } ) => {
                 state.isError       = payload?.error || "An unknown error occurred";
                 state.isLoading     = false;
                 state.isRefreshing  = false;
             })
-            .addCase(getOneTaskList.pending, (state) => {
+            .addCase(getOneTasks.pending, (state) => {
                 state.isError       = null;
                 state.isLoading     = false;
                 state.isRefreshing  = true;
             })
 
         builder
-            .addCase(createTaskList.fulfilled, (state, {payload}) => {
+            .addCase(createTasks.fulfilled, (state, {payload}) => {
                 state.id            = payload.data.id;
-                state.name          = payload.data.name;
+                state.title         = payload.data.title;
                 state.description   = payload.data.description;
                 state.is_completed  = payload.data.is_completed;
                 state.permission    = payload.data.permission;
@@ -91,21 +91,21 @@ const taskListSlice = createSlice({
                 state.isLoading     = true;
                 state.isRefreshing  = false;
             })
-            .addCase(createTaskList.rejected, (state, { payload } ) => {
+            .addCase(createTasks.rejected, (state, { payload } ) => {
                 state.isError       = payload?.error || "An unknown error occurred";
                 state.isLoading     = false;
                 state.isRefreshing  = false;
             })
-            .addCase(createTaskList.pending, (state) => {
+            .addCase(createTasks.pending, (state) => {
                 state.isError       = null;
                 state.isLoading     = false;
                 state.isRefreshing  = true;
             })
 
         builder
-            .addCase(updateTaskList.fulfilled, (state, {payload}) => {
+            .addCase(updateTasks.fulfilled, (state, {payload}) => {
                 state.id            = payload.data.id;
-                state.name          = payload.data.name;
+                state.title         = payload.data.title;
                 state.description   = payload.data.description;
                 state.is_completed  = payload.data.is_completed;
                 state.permission    = payload.data.permission;
@@ -115,21 +115,21 @@ const taskListSlice = createSlice({
                 state.isLoading     = true;
                 state.isRefreshing  = false;
             })
-            .addCase(updateTaskList.rejected, (state, { payload } ) => {
+            .addCase(updateTasks.rejected, (state, { payload } ) => {
                 state.isError       = payload?.error || "An unknown error occurred";
                 state.isLoading     = false;
                 state.isRefreshing  = false;
             })
-            .addCase(updateTaskList.pending, (state) => {
+            .addCase(updateTasks.pending, (state) => {
                 state.isError       = null;
                 state.isLoading     = false;
                 state.isRefreshing  = true;
             })
 
         builder
-            .addCase(destroyTaskList.fulfilled, (state) => {
+            .addCase(destroyTasks.fulfilled, (state) => {
                 state.id            = '';
-                state.name          = '';
+                state.title         = '';
                 state.description   = '';
                 state.is_completed  = '';
                 state.permission    = '';
@@ -139,12 +139,12 @@ const taskListSlice = createSlice({
                 state.isLoading     = true;
                 state.isRefreshing  = false;
             })
-            .addCase(destroyTaskList.rejected, (state, { payload } ) => {
+            .addCase(destroyTasks.rejected, (state, { payload } ) => {
                 state.isError       = payload?.error || "An unknown error occurred";
                 state.isLoading     = false;
                 state.isRefreshing  = false;
             })
-            .addCase(destroyTaskList.pending, (state) => {
+            .addCase(destroyTasks.pending, (state) => {
                 state.isError       = null;
                 state.isLoading     = false;
                 state.isRefreshing  = true;
@@ -152,4 +152,4 @@ const taskListSlice = createSlice({
     }
 });
 
-export default taskListSlice.reducer;
+export default tasksSlice.reducer;
