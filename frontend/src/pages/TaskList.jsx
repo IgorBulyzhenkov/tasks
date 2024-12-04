@@ -1,20 +1,21 @@
 import { useDispatch, useSelector } from "react-redux";
 import {useEffect, useState} from "react";
 import s from "./TaskList.module.css";
-import {Link, Navigate, NavLink} from "react-router-dom";
+import {Link, Navigate, NavLink, useNavigate} from "react-router-dom";
 import Container from "../component/Container/Container";
 import taskList from '../redux/task_list/task_list-operation';
 import CreateTaskModal from "../component/Modals/CreateTaskList";
 import { getDataTaskList } from "../redux/task_list/task_list-selectors";
 import { BsFillBookmarkCheckFill, BsFillBookmarkXFill } from "react-icons/bs";
 
-const { getTaskList, destroyTaskList } = taskList;
+const { getTaskList, destroyTaskList, getOneTaskList } = taskList;
 
 function TaskList() {
     const taskListData = useSelector(getDataTaskList);
     const [toggle, setToggle] = useState(false);
     const dispatch = useDispatch();
     const elBody = document.querySelector("body");
+    const navigate = useNavigate();
 
     useEffect(() => {
         dispatch(getTaskList());
@@ -35,7 +36,6 @@ function TaskList() {
         dispatch(destroyTaskList({ id }));
         dispatch(getTaskList());
     }
-
 
     return (
         <main className={s.main}>
@@ -70,7 +70,7 @@ function TaskList() {
                                                 {(task.permission === 'full' || task.permission === 'view') ?
                                                     <li className={s.item}>
                                                         <NavLink
-                                                            to="/"
+                                                            to={`/task-list/${task.id}`}
                                                             className={s.button}
                                                         >
                                                             View
@@ -80,7 +80,7 @@ function TaskList() {
                                                 {(task.permission === 'full' || task.permission === 'edit') ?
                                                     <li>
                                                         <NavLink
-                                                            to="/"
+                                                            to={`/task-list/edit/${task.id}`}
                                                             className={s.button}
                                                         >
                                                             Edit
