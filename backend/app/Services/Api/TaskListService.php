@@ -20,8 +20,6 @@ class TaskListService extends BaseApiService
             ->where([
                 'fk_user' => auth()->id(),
             ])
-            ->skip(($page - 1) * $limit)
-            ->take($limit)
             ->pluck('fk_task_list');
 
         if($dataTaskListUser->count() === 0){
@@ -59,14 +57,20 @@ class TaskListService extends BaseApiService
             ];
         });
 
+        $totalRecords   = TaskList::query()
+            ->whereIn('id', $dataTaskListUser)
+            ->count();
+
+        $totalPages     = $totalRecords > 0 ? ceil($totalRecords / $limit) : 1;
+
         return response()->json([
             'success' => true,
             'data'    => [
                 'data'          => $data,
                 'current_page'  => $page,
                 'limit'         => $limit,
-                'total_records' => $taskLists->count(),
-                'total_pages'   => ceil($taskLists->count() / $limit),
+                'total_records' => $totalRecords,
+                'total_pages'   => $totalPages,
             ],
         ], 200);
 

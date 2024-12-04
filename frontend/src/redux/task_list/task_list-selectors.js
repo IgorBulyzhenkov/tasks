@@ -6,3 +6,7 @@ export const getTaskListUserCreated = (state) => state?.task_list?.userName;
 export const getTaskListCreatedAt = (state) => state?.task_list?.created_at;
 export const getTaskListName = (state) => state?.task_list?.name;
 export const getIsLoading = (state) => state.task_list.isLoading;
+export const getCurrentPage = (state) => state.task_list?.current_page;
+export const getTotalPage = (state) => state.task_list?.total_pages;
+export const getTotalRecords = (state) => state.task_list?.total_records;
+export const getLimit = (state) => state.task_list.limit;

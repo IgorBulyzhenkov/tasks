@@ -1,12 +1,19 @@
 import { useDispatch, useSelector } from "react-redux";
 import {useEffect, useState} from "react";
 import s from "./TaskList.module.css";
-import {Link, Navigate, NavLink, useNavigate} from "react-router-dom";
+import {Link, Navigate, NavLink, useLocation, useNavigate, useParams} from "react-router-dom";
 import Container from "../component/Container/Container";
 import taskList from '../redux/task_list/task_list-operation';
 import CreateTaskModal from "../component/Modals/CreateTaskList";
-import { getDataTaskList } from "../redux/task_list/task_list-selectors";
+import {
+    getDataTaskList,
+    getCurrentPage,
+    getTotalPage,
+    getTotalRecords,
+    getLimit
+} from "../redux/task_list/task_list-selectors";
 import { BsFillBookmarkCheckFill, BsFillBookmarkXFill } from "react-icons/bs";
+import Pagination from "../component/Pagination/Pagination";
 
 const { getTaskList, destroyTaskList, getOneTaskList } = taskList;
 
@@ -15,11 +22,19 @@ function TaskList() {
     const [toggle, setToggle] = useState(false);
     const dispatch = useDispatch();
     const elBody = document.querySelector("body");
+    const location = useLocation();
+    const currentPage = useSelector(getCurrentPage);
+    const totalPages = useSelector(getTotalPage);
     const navigate = useNavigate();
 
+    const params = new URLSearchParams(location.search);
+    const page = parseInt(params.get("page"), 10) || 1;
+    const limit = parseInt(params.get("limit"), 10) || 10;
+
     useEffect(() => {
-        dispatch(getTaskList());
-    }, []);
+        dispatch(getTaskList({ page, limit }));
+
+    }, [page, limit, dispatch]);
 
     const toggleClick = (e) => {
         e.stopPropagation();
@@ -34,8 +49,16 @@ function TaskList() {
 
     const deleteTaskList = ({target : {id}}) => {
         dispatch(destroyTaskList({ id }));
-        dispatch(getTaskList());
+        dispatch(getTaskList({ page, limit }));
     }
+
+    const handlePageChange = (page, limit) => {
+        if(limit){
+            navigate(`/task-list?page=${page}&limit=${limit}`);
+        }else{
+            navigate(`/task-list?page=${page}`);
+        }
+    };
 
     return (
         <main className={s.main}>
@@ -117,6 +140,13 @@ function TaskList() {
                             )}
                         </tbody>
                     </table>
+
+                    <Pagination
+                        currentPage={currentPage}
+                        totalPages={totalPages}
+                        onPageChange={handlePageChange}
+                        limit={limit}
+                    />
                 </div>
             </Container>
             {toggle ? <CreateTaskModal actions={{ toggleClick, setToggle }} /> : null}
