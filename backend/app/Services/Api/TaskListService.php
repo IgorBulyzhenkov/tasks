@@ -106,7 +106,12 @@ class TaskListService extends BaseApiService
             return response()->json([
                 'success' => true,
                 'data' => [
-                    'id' => $taskListModel->id
+                    'id'            => $taskListModel->id,
+                    'name'          => $taskListModel->name,
+                    'description'   => $taskListModel->description,
+                    'created_at'    => $taskListModel->created_at->format('d/m/Y H:i'),
+                    'is_completed'  => $taskListModel->is_completed,
+                    'user'          => $taskListModel->fkUser->name
                 ]
             ], 201);
 
@@ -197,7 +202,14 @@ class TaskListService extends BaseApiService
         return response()->json([
             'success'   => true,
             'message'   => 'update task',
-            'data'      => $id
+            'data'      => [
+                'id'            => $taskListModel->id,
+                'name'          => $taskListModel->name,
+                'description'   => $taskListModel->description,
+                'created_at'    => $taskListModel->created_at->format('d/m/Y H:i'),
+                'is_completed'  => $taskListModel->is_completed,
+                'user'          => $taskListModel->fkUser->name
+            ]
         ], 200);
 
     }

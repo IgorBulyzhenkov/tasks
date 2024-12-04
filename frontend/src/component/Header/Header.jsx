@@ -55,6 +55,16 @@ function Header() {
                                             Home
                                         </NavLink>
                                     </li>
+                                    <li className={s.item}>
+                                        <NavLink
+                                            to="/task-list"
+                                            className={({isActive}) =>
+                                                isActive ? s.activeLink : s.navLink
+                                            }
+                                        >
+                                            Task List
+                                        </NavLink>
+                                    </li>
                                 </ul>
                             </nav>
                             <button
@@ -68,7 +78,7 @@ function Header() {
                         </>) : (
                         <>
                             <ul className={s.list}>
-                                <li className={s.item}>
+                            <li className={s.item}>
                                     <NavLink
                                         to="/login"
                                         // className={s.link}

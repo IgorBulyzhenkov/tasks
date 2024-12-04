@@ -53,6 +53,17 @@ function MobMenu({setToggle}) {
                         </li>
 
                         <li className={s.item}>
+                            <NavLink
+                                to="/task-list"
+                                className={({isActive}) =>
+                                    isActive ? s.activeLink : s.navLink
+                                }
+                            >
+                                Task List
+                            </NavLink>
+                        </li>
+
+                        <li className={s.item}>
                             <button onClick={handleClick} className={s.buttonExit}>
                                 Log out
                             </button>
