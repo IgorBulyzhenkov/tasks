@@ -103,6 +103,7 @@ tbody tr:nth-child(odd) {
     margin: 3px;
     background-color: #cfcece63;
     height: 30px;
+    color: black;
 }
 
 .button:hover,
@@ -120,6 +121,7 @@ tbody tr:nth-child(odd) {
     margin: 3px;
     background-color: #fe99998c;
     height: 30px;
+    color: black;
 }
 
 .buttonDelete:hover,

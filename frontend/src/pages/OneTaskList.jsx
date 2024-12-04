@@ -10,7 +10,8 @@ import {
     getTaskListUserCreated,
     getTaskListIsCompleted,
     getTaskListDescription,
-    getTaskListId
+    getTaskListId,
+    getIsLoading
 } from "../redux/task_list/task_list-selectors";
 
 const { getOneTaskList } = taskList;
@@ -18,8 +19,6 @@ const { getOneTaskList } = taskList;
 function OneTaskList() {
     const { id } = useParams();
     const dispatch = useDispatch();
-    const navigate = useNavigate();
-    const location = useLocation();
 
     const nameTask = useSelector(getTaskListName);
     const descriptionTask = useSelector(getTaskListDescription);
@@ -27,6 +26,7 @@ function OneTaskList() {
     const createdAt = useSelector(getTaskListCreatedAt);
     const idTask = useSelector(getTaskListId);
     const isCompleted = useSelector(getTaskListIsCompleted);
+    const isLoading  = useSelector(getIsLoading);
 
     useEffect(() => {
         dispatch(getOneTaskList({ id }))
@@ -36,17 +36,21 @@ function OneTaskList() {
     return (
         <main className={s.main}>
             <Container>
-                <h1 className="task-title">{nameTask}</h1>
+                {isLoading ?
+                    <>
+                        <h1 className="task-title">{nameTask}</h1>
 
-                <div className="task-info">
-                    <p><strong>Task ID:</strong> {idTask}</p>
-                    <p><strong>Description:</strong> {descriptionTask}</p>
-                    <p><strong>Created By:</strong> {createdUser}</p>
-                    <p><strong>Created At:</strong> {createdAt}</p>
-                    <p>
-                        <strong>Status:</strong> {!isCompleted ? "Completed" : "Not Completed"}
-                    </p>
-                </div>
+                        <div className="task-info">
+                            <p><strong>Task ID:</strong> {idTask}</p>
+                            <p><strong>Description:</strong> {descriptionTask}</p>
+                            <p><strong>Created By:</strong> {createdUser}</p>
+                            <p><strong>Created At:</strong> {createdAt}</p>
+                            <p>
+                                <strong>Status:</strong> {!isCompleted ? "Completed" : "Not Completed"}
+                            </p>
+                        </div>
+                    </> : ''
+                }
             </Container>
         </main>
     );

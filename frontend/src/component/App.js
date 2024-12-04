@@ -17,6 +17,7 @@ const Home = lazy(() => import("../pages/HomePage"));
 const Verify = lazy(() => import("../pages/Verify"));
 const TaskList = lazy(() => import("../pages/TaskList"));
 const OneTaskList = lazy(() => import("../pages/OneTaskList"));
+const EditTaskList = lazy(() => import("../pages/EditTaskListPage"));
 
 function App() {
     const verify = useSelector(getVerify);
@@ -58,6 +59,11 @@ function App() {
                         <Route path="/task-list/:id" element={
                             <PrivateRouter>
                                 <OneTaskList/>
+                            </PrivateRouter>
+                        } />
+                        <Route path="/task-list/edit/:id" element={
+                            <PrivateRouter>
+                                <EditTaskList/>
                             </PrivateRouter>
                         } />
                         <Route

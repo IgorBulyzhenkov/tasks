@@ -62,7 +62,7 @@ const createTaskList = createAsyncThunk('taskList/createTaskList', async ({ name
     }
 });
 
-const updateTaskList = createAsyncThunk('taskList/updateTaskList', async ({ name, description, is_completed, reset }, {rejectWithValue, getState}) => {
+const updateTaskList = createAsyncThunk('taskList/updateTaskList', async ({ id, name, description, is_completed, reset }, {rejectWithValue, getState}) => {
     const state = getState();
     const persistorToken = state.user.token;
     if (persistorToken !== null ) token.set(persistorToken);
@@ -74,7 +74,7 @@ const updateTaskList = createAsyncThunk('taskList/updateTaskList', async ({ name
     }
 
     try {
-        const { data } = await axios.put(`/task-list/`, body);
+        const { data } = await axios.put(`/task-list/${id}`, body);
         getToastSuccess('Update task list successfully!');
         reset();
         return data;
