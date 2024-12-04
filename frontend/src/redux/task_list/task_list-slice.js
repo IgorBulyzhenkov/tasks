@@ -20,7 +20,11 @@ const initialState = {
     isLoading: false,
     isRefreshing: false,
     id: null,
-    created_at: null
+    created_at: null,
+    limit: null,
+    total_records: null,
+    total_pages: null,
+    current_page: null
 }
 
 const taskListSlice = createSlice({
@@ -34,6 +38,12 @@ const taskListSlice = createSlice({
                 state.isError       = null;
                 state.isLoading     = true;
                 state.isRefreshing  = false;
+                state.total_records = payload.data.total;
+                state.total_pages   = payload.data.total_pages;
+                state.limit         = payload.data.limit;
+                state.current_page  = payload.data.current_page;
+
+                console.log(payload.data)
             })
             .addCase(getTaskList.rejected, (state, { payload } ) => {
                 state.isError       = payload?.error || "An unknown error occurred";

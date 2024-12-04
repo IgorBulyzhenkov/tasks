@@ -3,13 +3,18 @@ import { toast } from "react-toastify";
 import axios from "axios";
 import {token} from "../axios";
 
-const getTaskList = createAsyncThunk('taskList/getTaskList', async (_ ,{rejectWithValue, getState}) => {
+const getTaskList = createAsyncThunk('taskList/getTaskList', async ({ page, limit } ,{rejectWithValue, getState}) => {
     const state = getState();
     const persistorToken = state.user.token;
     if (persistorToken !== null ) token.set(persistorToken);
 
     try {
-        const { data } = await axios.get('/task-list');
+        const { data } = await axios.get('/task-list', {
+            params: {
+                page,
+                limit
+            }
+        });
 
         console.log(data);
 
