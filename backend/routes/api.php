@@ -4,6 +4,7 @@ use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\RegisterController;
 use App\Http\Controllers\Api\SendAgainController;
 use App\Http\Controllers\Api\TaskListController;
+use App\Http\Controllers\Api\TaskListUserController;
 use App\Http\Controllers\Api\TasksController;
 use App\Http\Controllers\Api\VerifyController;
 use App\Http\Middleware\Api\ValidateToken;
@@ -47,6 +48,12 @@ Route::prefix('/v1')->group(function () {
             Route::post('/',                [TasksController::class, 'store']);
             Route::put('/{id}',             [TasksController::class, 'update']);
             Route::delete('/{id}',          [TasksController::class, 'destroy']);
+        });
+
+        Route::prefix('/users')->group(function () {
+            Route::get('/',                 [TaskListUserController::class, 'getListUsers']);
+            Route::get('/search',           [TaskListUserController::class, 'searchUsers']);
+            Route::post('/bind',            [TaskListUserController::class, 'bindToTask']);
         });
     });
 });
