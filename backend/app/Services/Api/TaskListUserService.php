@@ -118,6 +118,7 @@ class TaskListUserService extends BaseApiService
                 'status'    => true,
                 'message'   => 'User bind to task list successfully'
             ], 201);
+
         }catch (\Exception $exception){
             DB::rollBack();
             return response()->json([
