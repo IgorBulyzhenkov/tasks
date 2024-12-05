@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import tasks from './task_s-operation';
+import tasks from './tasks-operation';
 
 const {
     getTasks,
@@ -16,6 +16,7 @@ const initialState = {
     is_completed: false,
     permission: false,
     userName: '',
+    taskList: null,
     isError: null,
     isLoading: false,
     isRefreshing: false,
@@ -33,15 +34,22 @@ const tasksSlice = createSlice({
     extraReducers: (builder) => {
         builder
             .addCase(getTasks.fulfilled, (state, {payload}) => {
-                state.tasksData     = payload.data.data;
+
+                if(payload.data.data){
+                    state.tasksData     = payload.data.data ;
+                }else{
+                    state.tasksData     = [];
+                }
+
                 state.userName      = '';
+                state.taskList      = null;
                 state.isError       = null;
                 state.isLoading     = true;
                 state.isRefreshing  = false;
-                state.total_records = payload.data.total;
-                state.total_pages   = payload.data.total_pages;
-                state.limit         = payload.data.limit;
-                state.current_page  = payload.data.current_page;
+                state.total_records = payload?.data?.total;
+                state.total_pages   = payload?.data?.total_pages;
+                state.limit         = payload?.data?.limit;
+                state.current_page  = payload?.data?.current_page;
             })
             .addCase(getTasks.rejected, (state, { payload } ) => {
                 state.isError       = payload?.error || "An unknown error occurred";
@@ -60,9 +68,10 @@ const tasksSlice = createSlice({
                 state.title         = payload.data.title;
                 state.description   = payload.data.description;
                 state.is_completed  = payload.data.is_completed;
-                state.permission    = payload.data.permission;
+                state.taskList      = payload.data.taskList;
                 state.created_at    = payload.data.created_at;
                 state.userName      = payload.data.user;
+                state.taskList      = payload.data.taskList;
                 state.isError       = null;
                 state.isLoading     = true;
                 state.isRefreshing  = false;

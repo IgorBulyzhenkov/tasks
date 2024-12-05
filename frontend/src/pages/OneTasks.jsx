@@ -1,35 +1,37 @@
 import {useEffect} from "react";
 import { useDispatch, useSelector } from "react-redux";
-import s from './OneTaskList.module.css';
-import taskList from "../redux/task_list/task_list-operation";
+import s from './OneTasks.module.css';
+import tasks from "../redux/tasks/tasks-operation";
 import Container from "../component/Container/Container";
 import {useParams} from "react-router-dom";
 import {
-    getTaskListName,
-    getTaskListCreatedAt,
-    getTaskListUserCreated,
-    getTaskListIsCompleted,
-    getTaskListDescription,
-    getTaskListId,
-    getIsLoading
-} from "../redux/task_list/task_list-selectors";
+    getTasksTitle,
+    getTasksCreatedAt,
+    getTasksUserCreated,
+    getTasksIsCompleted,
+    getTasksDescription,
+    getTasksId,
+    getIsLoading,
+    getTaskListName
+} from "../redux/tasks/tasks-selectors";
 
-const { getOneTaskList } = taskList;
+const { getOneTasks } = tasks;
 
-function OneTaskList() {
+function OneTasks() {
     const { id } = useParams();
     const dispatch = useDispatch();
 
-    const nameTask = useSelector(getTaskListName);
-    const descriptionTask = useSelector(getTaskListDescription);
-    const createdUser = useSelector(getTaskListUserCreated);
-    const createdAt = useSelector(getTaskListCreatedAt);
-    const idTask = useSelector(getTaskListId);
-    const isCompleted = useSelector(getTaskListIsCompleted);
+    const titleTask = useSelector(getTasksTitle);
+    const descriptionTask = useSelector(getTasksDescription);
+    const createdUser = useSelector(getTasksUserCreated);
+    const createdAt = useSelector(getTasksCreatedAt);
+    const idTask = useSelector(getTasksId);
+    const isCompleted = useSelector(getTasksIsCompleted);
     const isLoading  = useSelector(getIsLoading);
+    const taskList = useSelector(getTaskListName);
 
     useEffect(() => {
-        dispatch(getOneTaskList({ id }))
+        dispatch(getOneTasks({ id }))
     }, []);
 
 
@@ -38,11 +40,12 @@ function OneTaskList() {
             <Container>
                 {isLoading ?
                     <>
-                        <h1 className="task-title">{nameTask}</h1>
+                        <h1 className="task-title">{titleTask}</h1>
 
                         <div className="task-info">
                             <p><strong>Task ID:</strong> {idTask}</p>
                             <p><strong>Description:</strong> {descriptionTask}</p>
+                            <p><strong>Task List:</strong> {taskList}</p>
                             <p><strong>Created By:</strong> {createdUser}</p>
                             <p><strong>Created At:</strong> {createdAt}</p>
                             <p>
@@ -56,4 +59,4 @@ function OneTaskList() {
     );
 }
 
-export default OneTaskList;
+export default OneTasks;

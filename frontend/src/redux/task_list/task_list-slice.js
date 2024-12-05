@@ -33,7 +33,13 @@ const taskListSlice = createSlice({
     extraReducers: (builder) => {
         builder
             .addCase(getTaskList.fulfilled, (state, {payload}) => {
-                state.taskListData  = payload.data.data;
+
+                if(payload.data.data){
+                    state.taskListData     = payload.data.data ;
+                }else{
+                    state.taskListData     = [];
+                }
+
                 state.userName      = '';
                 state.isError       = null;
                 state.isLoading     = true;

@@ -15,6 +15,11 @@ const getTaskList = createAsyncThunk('taskList/getTaskList', async ({ page, limi
                 limit
             }
         });
+
+        if(data.data.length === 0){
+            getToastSuccess('No tasks!');
+        }
+
         return data;
     }catch(error) {
         getCheckoutError(error);

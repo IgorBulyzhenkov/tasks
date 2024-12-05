@@ -1,40 +1,40 @@
 import {useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {toast} from "react-toastify";
-import sCreate from "./CreateTaskListForm.module.css";
+import sCreate from "./CreateTasksForm.module.css";
 import s from "./Login.module.css";
-import taskList from '../../redux/task_list/task_list-operation';
+import tasks from '../../redux/tasks/tasks-operation';
 import {
-    getTaskListName,
-    getTaskListIsCompleted,
-    getTaskListDescription,
+    getTasksTitle,
+    getTasksIsCompleted,
+    getTasksDescription,
     getIsLoading
-} from '../../redux/task_list/task_list-selectors';
+} from '../../redux/tasks/tasks-selectors';
 import {useNavigate, useParams} from "react-router-dom";
 
-const { getOneTaskList, updateTaskList } = taskList;
+const { getOneTasks, updateTasks } = tasks;
 
-function EditTaskListForm() {
+function EditTasksForm() {
     const dispatch = useDispatch();
     const { id } = useParams();
 
-    const nameTaskList      = useSelector(getTaskListName);
-    const descriptionTaskList      = useSelector(getTaskListDescription);
-    const isCompletedTaskList      = useSelector(getTaskListIsCompleted);
-    const isLoading                = useSelector(getIsLoading);
+    const titleTasks            = useSelector(getTasksTitle);
+    const descriptionTasks      = useSelector(getTasksDescription);
+    const isCompletedTasks      = useSelector(getTasksIsCompleted);
+    const isLoading             = useSelector(getIsLoading);
 
-    const [name, setName]            = useState(nameTaskList);
-    const [description, setDescription]     = useState(descriptionTaskList);
-    const [is_completed, setIsCompleted]    = useState(isCompletedTaskList);
+    const [title, setTitle]                 = useState(titleTasks);
+    const [description, setDescription]     = useState(descriptionTasks);
+    const [is_completed, setIsCompleted]    = useState(isCompletedTasks);
 
     const navigate = useNavigate();
 
     useEffect(() => {
-        dispatch(getOneTaskList({ id }))
+        dispatch(getOneTasks({ id }))
     }, []);
 
     const reset = () => {
-        setName('');
+        setTitle('');
         setDescription('');
         setIsCompleted('0');
     }
@@ -42,9 +42,9 @@ function EditTaskListForm() {
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        if(name.trim()){
-            dispatch(updateTaskList({ id, name, description, is_completed, reset }))
-            navigate(`/task-list/${id}`, {state: {from: `/task-list/edit/${id}`}});
+        if(title.trim()){
+            dispatch(updateTasks({ id, title, description, is_completed, reset }))
+            navigate(`/tasks/view/${id}`, {state: {from: `/tasks/edit/${id}`}});
         }else{
             toast.error( "Name is required"  , {
                 position: "top-right",
@@ -59,16 +59,17 @@ function EditTaskListForm() {
         }
     }
 
-    const handleChange = ({target: {name, value}}) => {
+    const handleChange = ({target: {name, value, checked}}) => {
         switch (name) {
-            case "name":
-                return setName(value);
+            case "title":
+                return setTitle(value);
 
             case "description":
                 return setDescription(value);
 
             case "is_completed":
-                return setIsCompleted(value);
+                const completed = !checked ? '0' : '1';
+                return setIsCompleted(completed);
 
             default:
                 return;
@@ -77,11 +78,11 @@ function EditTaskListForm() {
 
     useEffect(() => {
         if (isLoading) {
-            setName(nameTaskList || "");
-            setDescription(descriptionTaskList || "");
-            setIsCompleted(isCompletedTaskList || false);
+            setTitle(titleTasks || "");
+            setDescription(descriptionTasks || "");
+            setIsCompleted(isCompletedTasks || false);
         }
-    }, [isLoading, nameTaskList, descriptionTaskList, isCompletedTaskList]);
+    }, [isLoading, titleTasks, descriptionTasks, isCompletedTasks]);
 
     return (
         <>
@@ -89,14 +90,14 @@ function EditTaskListForm() {
                 <form noValidate onSubmit={handleSubmit} className={sCreate.form_check}>
                     <div className="form-group">
                         <label className={s.label}>
-                            <span className={s.spanLabel}>Name Task</span>
+                            <span className={s.spanLabel}>Title Task</span>
                             <input
-                                value={name}
+                                value={title}
                                 onChange={handleChange}
                                 type="text"
-                                name="name"
+                                name="title"
                                 className={s.textField__input}
-                                placeholder="Enter name"/>
+                                placeholder="Enter title"/>
                         </label>
                     </div>
                     <div className="form-group">
@@ -135,4 +136,4 @@ function EditTaskListForm() {
     );
 }
 
-export default EditTaskListForm;
+export default EditTasksForm;
