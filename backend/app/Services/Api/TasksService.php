@@ -43,7 +43,6 @@ class TasksService extends BaseApiService
         $page       = (int)$request->query('page', 1);
         $limit      = (int)$request->query('limit', 10);
 
-
         $totalPages = ceil($total / $limit);
 
         $data       = collect([]);

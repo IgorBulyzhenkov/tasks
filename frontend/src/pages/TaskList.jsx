@@ -121,7 +121,7 @@ function TaskList() {
                                                     </NavLink>
                                                 </li> : null
                                             }
-                                            {(task.permission === 'full' || task.permission === 'edit') ?
+                                            {(task.permission === 'full' || task.permission === 'view_list') ?
                                                 <li>
                                                     <NavLink
                                                         to={`/`}
