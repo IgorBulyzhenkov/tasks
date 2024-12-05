@@ -21,6 +21,7 @@ const EditTaskList = lazy(() => import("../pages/EditTaskListPage"));
 const Tasks = lazy(() => import("../pages/TasksPage"));
 const OneTasks = lazy(() => import('../pages/OneTasks'));
 const EditTasks = lazy(() => import("../pages/EditTasks"));
+const UsersList = lazy(() => import("../pages/UsersList"));
 
 function App() {
     const verify = useSelector(getVerify);
@@ -39,57 +40,80 @@ function App() {
                     }
                 >
                     <Routes>
+
                         <Route path='/login' element={
                             <PublicRouter>
                                 <Login/>
                             </PublicRouter>
                         }/>
+
                         <Route path='/auth' element={
                             <PublicRouter>
                                 <Registration/>
                             </PublicRouter>
                         }/>
+
                         <Route path="/" element={
                             <PrivateRouter>
                                 <Home/>
                             </PrivateRouter>
                         } />
+
                         <Route path="/task-list" element={
                             <PrivateRouter>
                                 <TaskList/>
                             </PrivateRouter>
                         } />
+
                         <Route path="/task-list/:id" element={
                             <PrivateRouter>
                                 <OneTaskList/>
                             </PrivateRouter>
                         } />
+
                         <Route path="/task-list/edit/:id" element={
                             <PrivateRouter>
                                 <EditTaskList/>
                             </PrivateRouter>
                         } />
+
                         <Route path="/tasks/list/:fk_task_list" element={
                             <PrivateRouter>
                                 <Tasks/>
                             </PrivateRouter>
                         } />
+
                         <Route path="/tasks/view/:id" element={
                             <PrivateRouter>
                                 <OneTasks/>
                             </PrivateRouter>
                         } />
+
                         <Route path="/tasks/edit/:id" element={
                             <PrivateRouter>
                                 <EditTasks/>
                             </PrivateRouter>
                         } />
+
+                        <Route path="/users-list/:fk_task_list" element={
+                            <PrivateRouter>
+                                <UsersList/>
+                            </PrivateRouter>
+                        } />
+
+                        <Route path="/users-list/bind/:fk_task_list" element={
+                            <PrivateRouter>
+                                <UsersList/>
+                            </PrivateRouter>
+                        } />
+
                         <Route
                             path="/verify-email/:token"
                             element={
                                 !verify && verifyToken ? <Verify/> : <Navigate to="/"/>
                             }
                         />
+
                         <Route
                             path="*"
                             element={

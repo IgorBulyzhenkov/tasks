@@ -124,7 +124,17 @@ function TaskList() {
                                             {(task.permission === 'full' || task.permission === 'view_list') ?
                                                 <li>
                                                     <NavLink
-                                                        to={`/`}
+                                                        to={`/users-list/${task.id}`}
+                                                        className={s.button}
+                                                    >
+                                                        User List
+                                                    </NavLink>
+                                                </li> : null
+                                            }
+                                            {(task.permission === 'full' || task.permission === 'edit') ?
+                                                <li>
+                                                    <NavLink
+                                                        to={`/users-list/bind/${task.id}`}
                                                         className={s.button}
                                                     >
                                                         User List

@@ -19,7 +19,7 @@ const usersSlice = createSlice({
     extraReducers: ( builder) => {
         builder
             .addCase(searchUsers.fulfilled, (state, {payload}) => {
-                state.usersData     = payload.data.data;
+                state.usersData     = payload.data;
                 state.isError       = false;
                 state.isLoading     = true;
             })
@@ -36,7 +36,7 @@ const usersSlice = createSlice({
 
         builder
             .addCase(getUsersList.fulfilled, (state, {payload}) => {
-                state.usersData     = payload.data.data;
+                state.usersData     = payload.data;
                 state.isError       = false;
                 state.isLoading     = true;
             })

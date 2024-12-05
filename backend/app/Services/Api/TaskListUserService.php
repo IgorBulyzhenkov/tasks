@@ -34,7 +34,8 @@ class TaskListUserService extends BaseApiService
 
         foreach ($tasks as $task){
             $newData = [
-                'userName'      => $task->user->name,
+                'id'            => $task->user->id,
+                'name'          => $task->user->name,
                 'permission'    => $task->permission,
             ];
 
