@@ -22,6 +22,7 @@ const Tasks = lazy(() => import("../pages/TasksPage"));
 const OneTasks = lazy(() => import('../pages/OneTasks'));
 const EditTasks = lazy(() => import("../pages/EditTasks"));
 const UsersList = lazy(() => import("../pages/UsersList"));
+const BindUser = lazy(() => import("../pages/BindUserPage"));
 
 function App() {
     const verify = useSelector(getVerify);
@@ -101,9 +102,9 @@ function App() {
                             </PrivateRouter>
                         } />
 
-                        <Route path="/users-list/bind/:fk_task_list" element={
+                        <Route path="/users/bind/:fk_task_list" element={
                             <PrivateRouter>
-                                <UsersList/>
+                                <BindUser/>
                             </PrivateRouter>
                         } />
 

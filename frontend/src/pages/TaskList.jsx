@@ -89,7 +89,7 @@ function TaskList() {
                                             <BsFillBookmarkXFill className={s.noCheck}/>}
                                     </td>
                                     <td>{task.created_at}</td>
-                                    <td>
+                                    <td className={s.btnContainer}>
                                         <ul className={s.list}>
                                             {(task.permission === 'full' || task.permission === 'view') ?
                                                 <li className={s.item}>
@@ -102,7 +102,7 @@ function TaskList() {
                                                 </li> : null
                                             }
                                             {(task.permission === 'full' || task.permission === 'edit') ?
-                                                <li>
+                                                <li className={s.item}>
                                                     <NavLink
                                                         to={`/task-list/edit/${task.id}`}
                                                         className={s.button}
@@ -112,7 +112,7 @@ function TaskList() {
                                                 </li> : null
                                             }
                                             {(task.permission === 'full' || task.permission === 'edit' || task.permission === 'view') ?
-                                                <li>
+                                                <li className={s.item}>
                                                     <NavLink
                                                         to={`/tasks/list/${task.id}`}
                                                         className={s.button}
@@ -122,7 +122,7 @@ function TaskList() {
                                                 </li> : null
                                             }
                                             {(task.permission === 'full' || task.permission === 'view_list') ?
-                                                <li>
+                                                <li className={s.item}>
                                                     <NavLink
                                                         to={`/users-list/${task.id}`}
                                                         className={s.button}
@@ -132,17 +132,17 @@ function TaskList() {
                                                 </li> : null
                                             }
                                             {(task.permission === 'full' || task.permission === 'edit') ?
-                                                <li>
+                                                <li className={s.item}>
                                                     <NavLink
-                                                        to={`/users-list/bind/${task.id}`}
+                                                        to={`/users/bind/${task.id}`}
                                                         className={s.button}
                                                     >
-                                                        User List
+                                                        Bind user
                                                     </NavLink>
                                                 </li> : null
                                             }
                                             {task.permission === 'full' ?
-                                                <li>
+                                                <li className={s.item}>
                                                     <button type='button' onClick={deleteTaskList} id={task.id}
                                                             className={s.buttonDelete}>Delete
                                                     </button>

@@ -26,11 +26,6 @@ function MobMenu({setToggle}) {
         setToggle(false);
     };
 
-    const removeClass = () => {
-        elBody.classList.remove("hidden");
-        setToggle(false);
-    };
-
     return (
         <Container>
             <div className={s.menu}>
@@ -46,7 +41,7 @@ function MobMenu({setToggle}) {
                                 className={({isActive}) =>
                                     isActive ? s.activeLink : s.navLink
                                 }
-                                onClick={removeClass}
+                                onClick={handleClickToggle}
                             >
                                 Home
                             </NavLink>
@@ -58,6 +53,7 @@ function MobMenu({setToggle}) {
                                 className={({isActive}) =>
                                     isActive ? s.activeLink : s.navLink
                                 }
+                                onClick={handleClickToggle}
                             >
                                 Task List
                             </NavLink>
@@ -70,14 +66,14 @@ function MobMenu({setToggle}) {
                         </li>
                     </ul>
                 ) : (
-                    <ul className={s.list} onClick={removeClass}>
+                    <ul className={s.list} onClick={handleClickToggle}>
                         <li className={s.item}>
                             <NavLink
                                 to="/login"
                                 className={({isActive}) =>
                                     isActive ? s.activeLink : s.navLink
                                 }
-                                onClick={removeClass}
+                                onClick={handleClickToggle}
                             >
                                 Log in
                             </NavLink>
@@ -88,7 +84,7 @@ function MobMenu({setToggle}) {
                                 className={({isActive}) =>
                                     isActive ? s.activeLink : s.navLink
                                 }
-                                onClick={removeClass}
+                                onClick={handleClickToggle}
                             >
                                 Registration
                             </NavLink>

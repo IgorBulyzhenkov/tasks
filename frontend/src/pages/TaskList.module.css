@@ -19,7 +19,7 @@
 
 table {
     border-collapse: collapse;
-    width: 100%;
+    width: 101%;
     margin: 20px 0;
     font-size: 16px;
     text-align: center;
@@ -84,52 +84,60 @@ tbody tr:nth-child(odd) {
     }
 }
 
-.list{
-    list-style: none;
+.list {
     display: flex;
-    align-items: center;
-    justify-content: center;
     flex-wrap: wrap;
+    gap: 10px;
+    list-style: none;
     padding: 0;
-    width: 100%;
+    margin: 0;
+    justify-content: center;
 }
 
-.button{
-    border: 1px solid;
-    padding: 3px;
+.item {
+    margin: 5px;
+}
+
+.button {
+    display: inline-block;
+    padding: 5px 5px;
+    font-size: 13px;
+    font-weight: bold;
+    color: white;
+    background-color: #c0bfbf;
+    border: none;
     border-radius: 5px;
+    text-decoration: none;
     text-align: center;
-    cursor: pointer;
-    margin: 3px;
-    background-color: #cfcece63;
-    height: 30px;
-    color: black;
+    transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
 .button:hover,
-.button:focus {
-    background-color: #74636363;
-    box-shadow: 0 0 8px;
+.button:focus{
+    background-color: #434e57;
+    transform: scale(1.05);
 }
 
-.buttonDelete{
-    border: 1px solid;
-    padding: 3px;
+.buttonDelete {
+    display: inline-block;
+    padding: 5px 5px;
+    font-size: 13px;
+    font-weight: bold;
+    border: none;
     border-radius: 5px;
+    text-decoration: none;
     text-align: center;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    background-color: #ee606d;
+    color: white;
     cursor: pointer;
-    margin: 3px;
-    background-color: #fe99998c;
-    height: 30px;
-    color: black;
 }
 
 .buttonDelete:hover,
-.buttonDelete:focus {
-    background-color: #de1e1e9c;
-    box-shadow: 0 0 8px;
+.buttonDelete:focus{
+    background-color: #c82333;
+    transform: scale(1.05);
 }
-
 
 .buttonAdd{
     padding: 5px 15px;
@@ -153,4 +161,8 @@ tbody tr:nth-child(odd) {
 
 .noCheck{
     color: red;
+}
+
+.btnContainer{
+    width: 50%;
 }

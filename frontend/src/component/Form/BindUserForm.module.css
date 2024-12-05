@@ -1,0 +1,58 @@
+.form{
+    padding: 20px 15px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: center;
+}
+
+.label{
+    width: 80%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.input{
+    width: 70%;
+    border: 1px solid grey;
+    border-radius: 5px;
+    height: 30px;
+    padding-right: 30px;
+    padding-left: 10px;
+}
+
+.searchIcon{
+    position: absolute;
+    right: 6%;
+    font-size: 25px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+@media (min-width: 768px){
+    .searchIcon{
+        right: 12%;
+    }
+}
+
+.list{
+    list-style: none;
+    width: 100%;
+    padding: 0;
+}
+
+.item{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: 1px solid grey;
+    padding: 5px;
+    border-radius: 5px;
+}
+
+.inputRadio{
+    cursor: pointer;
+}

@@ -52,7 +52,12 @@ class TaskListUserService extends BaseApiService
     public function searchUser($request): \Illuminate\Http\JsonResponse
     {
         $users = User::query()
-            ->where('name', 'like', '%'. $request->query('name'). '%')
+            ->where('name', 'like', '%' . $request->query('name') . '%')
+            ->where('verification_token', null)
+            ->whereNotIn('id', function ($query) {
+                $query->select('fk_user')
+                    ->from('task_list_user');
+            })
             ->get();
 
         $data = collect([]);
@@ -61,8 +66,8 @@ class TaskListUserService extends BaseApiService
 
             if($user->id !== auth()->id()){
                 $newData = [
-                    'userName'      => $user->name,
-                    'id'            => $user->id,
+                    'name'  => $user->name,
+                    'id'    => $user->id,
                 ];
 
                 $data[] = $newData;

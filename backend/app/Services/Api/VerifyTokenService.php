@@ -3,9 +3,6 @@
 namespace app\Services\Api;
 
 use App\Models\User;
-use Carbon\Carbon;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Cache;
 
 class VerifyTokenService
 {
@@ -16,7 +13,7 @@ class VerifyTokenService
         if (is_null($user)) {
             return response()->json([
                 'success'   => false,
-                'error'     => 'User not found',
+                'message'   => 'User not found',
             ], 400);
         }
 
