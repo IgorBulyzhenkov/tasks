@@ -3,7 +3,7 @@ import { toast } from "react-toastify";
 import axios from "axios";
 import {token} from "../axios";
 
-const getTasks = createAsyncThunk('tasks/getTasks', async ({ page, limit } ,{rejectWithValue, getState}) => {
+const getTasks = createAsyncThunk('tasks/getTasks', async ({ fk_task_list, page, limit } ,{rejectWithValue, getState}) => {
     const state = getState();
     const persistorToken = state.user.token;
     if (persistorToken !== null ) token.set(persistorToken);
@@ -11,10 +11,16 @@ const getTasks = createAsyncThunk('tasks/getTasks', async ({ page, limit } ,{rej
     try {
         const { data } = await axios.get('/tasks', {
             params: {
+                fk_task_list,
                 page,
                 limit
             }
         });
+
+        if(data.data.length === 0){
+            getToastSuccess('No tasks!');
+        }
+
         return data;
     }catch(error) {
         getCheckoutError(error);
@@ -36,13 +42,14 @@ const getOneTasks = createAsyncThunk('tasks/getOneTasks', async ({ id }, {reject
     }
 });
 
-const createTasks = createAsyncThunk('tasks/createTasks', async ({ name, description, is_completed, reset, setToggle }, {rejectWithValue, getState}) => {
+const createTasks = createAsyncThunk('tasks/createTasks', async ({ fk_task_list, title, description, is_completed, reset, setToggle }, {rejectWithValue, getState}) => {
     const state = getState();
     const persistorToken = state.user.token;
     if (persistorToken !== null ) token.set(persistorToken);
 
     const body = {
-        name,
+        fk_task_list,
+        title,
         description,
         is_completed
     }
@@ -61,13 +68,13 @@ const createTasks = createAsyncThunk('tasks/createTasks', async ({ name, descrip
     }
 });
 
-const updateTasks = createAsyncThunk('tasks/updateTasks', async ({ id, name, description, is_completed, reset }, {rejectWithValue, getState}) => {
+const updateTasks = createAsyncThunk('tasks/updateTasks', async ({ id, title, description, is_completed, reset }, {rejectWithValue, getState}) => {
     const state = getState();
     const persistorToken = state.user.token;
     if (persistorToken !== null ) token.set(persistorToken);
 
     const body = {
-        name,
+        title,
         description,
         is_completed
     }

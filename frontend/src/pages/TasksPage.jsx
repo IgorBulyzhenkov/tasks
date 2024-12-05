@@ -1,37 +1,37 @@
+import s from './TasksPage.module.css';
 import { useDispatch, useSelector } from "react-redux";
 import {useEffect, useState} from "react";
-import s from "./TaskList.module.css";
-import { NavLink, useLocation, useNavigate} from "react-router-dom";
+import {NavLink, useLocation, useNavigate, useParams} from "react-router-dom";
 import Container from "../component/Container/Container";
-import taskList from '../redux/task_list/task_list-operation';
-import CreateTaskModal from "../component/Modals/CreateTaskList";
+import tasks from '../redux/tasks/tasks-operation';
+import CreateTasksModal from "../component/Modals/CreateTasks";
 import {
-    getDataTaskList,
-    getCurrentPage,
-    getTotalPage
-} from "../redux/task_list/task_list-selectors";
+    getDataTasks,
+    getTasksCurrentPage,
+    getTasksTotalPage
+} from "../redux/tasks/tasks-selectors";
 import { BsFillBookmarkCheckFill, BsFillBookmarkXFill } from "react-icons/bs";
 import Pagination from "../component/Pagination/Pagination";
 
-const { getTaskList, destroyTaskList, getOneTaskList } = taskList;
+const { getTasks, destroyTasks } = tasks;
 
-function TaskList() {
-    const taskListData = useSelector(getDataTaskList);
+function TasksPage (){
+    const tasksData = useSelector(getDataTasks);
     const [toggle, setToggle] = useState(false);
     const dispatch = useDispatch();
-    const elBody = document.querySelector("body");
-    const location = useLocation();
-    const currentPage = useSelector(getCurrentPage);
-    const totalPages = useSelector(getTotalPage);
+    const { fk_task_list } = useParams();
     const navigate = useNavigate();
+    const elBody = document.querySelector("body");
+    const currentPage = useSelector(getTasksCurrentPage);
+    const totalPages = useSelector(getTasksTotalPage);
+    const location = useLocation();
 
     const params = new URLSearchParams(location.search);
     const page = parseInt(params.get("page"), 10) || 1;
     const limit = parseInt(params.get("limit"), 10) || 10;
 
     useEffect(() => {
-        dispatch(getTaskList({ page, limit }));
-
+        dispatch(getTasks({ fk_task_list, page, limit }));
     }, [page, limit, dispatch]);
 
     const toggleClick = (e) => {
@@ -46,15 +46,15 @@ function TaskList() {
     }
 
     const deleteTaskList = ({target : {id}}) => {
-        dispatch(destroyTaskList({ id }));
-        dispatch(getTaskList({ page, limit }));
+        dispatch(destroyTasks({ id }));
+        dispatch(getTasks({ fk_task_list, page, limit }));
     }
 
     const handlePageChange = (page, limit) => {
         if(limit){
-            navigate(`/task-list?page=${page}&limit=${limit}`);
+            navigate(`/tasks/${fk_task_list}?page=${page}&limit=${limit}`);
         }else{
-            navigate(`/task-list?page=${page}`);
+            navigate(`/tasks/${fk_task_list}?page=${page}`);
         }
     };
 
@@ -62,29 +62,28 @@ function TaskList() {
         <main className={s.main}>
             <Container>
 
-                <h1> Task List </h1>
-
-                <button onClick={toggleClick} className={s.buttonAdd}>Add task list</button>
+                <h1> Tasks </h1>
+                <button onClick={toggleClick} className={s.buttonAdd}>Add task</button>
 
                 <div>
                     <table>
                         <thead>
                         <tr>
                             <th>ID</th>
-                            <th>Name</th>
+                            <th>Title</th>
                             <th>Completed</th>
                             <th>Created At</th>
                             <th>Action</th>
                         </tr>
                         </thead>
                         <tbody>
-                        {taskListData.length > 0 ? (
-                            taskListData.map((task) => (
+                        {tasksData.length > 0 ? (
+                            tasksData.map((task) => (
                                 <tr key={task.id}>
                                     <td>{task.id}</td>
-                                    <td>{task.name}</td>
+                                    <td>{task.title}</td>
                                     <td>
-                                        {task.is_completed ?
+                                        {task.is_completed === '0' ?
                                             <BsFillBookmarkCheckFill className={s.success}/> :
                                             <BsFillBookmarkXFill className={s.noCheck}/>}
                                     </td>
@@ -92,9 +91,9 @@ function TaskList() {
                                     <td>
                                         <ul className={s.list}>
                                             {(task.permission === 'full' || task.permission === 'view') ?
-                                                <li className={s.item}>
+                                                <li>
                                                     <NavLink
-                                                        to={`/task-list/${task.id}`}
+                                                        to={`/tasks/view/${task.id}`}
                                                         className={s.button}
                                                     >
                                                         View
@@ -104,30 +103,10 @@ function TaskList() {
                                             {(task.permission === 'full' || task.permission === 'edit') ?
                                                 <li>
                                                     <NavLink
-                                                        to={`/task-list/edit/${task.id}`}
+                                                        to={`/tasks/edit/${task.id}`}
                                                         className={s.button}
                                                     >
                                                         Edit
-                                                    </NavLink>
-                                                </li> : null
-                                            }
-                                            {(task.permission === 'full' || task.permission === 'edit' || task.permission === 'view') ?
-                                                <li>
-                                                    <NavLink
-                                                        to={`/tasks/list/${task.id}`}
-                                                        className={s.button}
-                                                    >
-                                                        Tasks
-                                                    </NavLink>
-                                                </li> : null
-                                            }
-                                            {(task.permission === 'full' || task.permission === 'edit') ?
-                                                <li>
-                                                    <NavLink
-                                                        to={`/`}
-                                                        className={s.button}
-                                                    >
-                                                        User List
                                                     </NavLink>
                                                 </li> : null
                                             }
@@ -160,9 +139,9 @@ function TaskList() {
                     />
                 </div>
             </Container>
-            {toggle ? <CreateTaskModal actions={{ toggleClick, setToggle, page, limit }} /> : null}
+            {toggle ? <CreateTasksModal actions={{toggleClick, setToggle, fk_task_list, page, limit}}/> : null}
         </main>
     );
 }
 
-export default TaskList;
+export default TasksPage;

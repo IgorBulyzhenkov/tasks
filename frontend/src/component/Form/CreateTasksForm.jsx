@@ -1,22 +1,22 @@
 import {useState} from "react";
 import {useDispatch} from "react-redux";
-import taskList from '../../redux/task_list/task_list-operation';
+import tasks from '../../redux/tasks/tasks-operation';
 import {toast} from "react-toastify";
 import s from "./Login.module.css";
 import sCreate from './CreateTaskListForm.module.css';
 
-const { createTaskList, getTaskList } = taskList;
+const { createTasks, getTasks } = tasks;
 
-function CreateTaskListForm({ actions }) {
-    const [name, setName] = useState('');
+function CreateTasksForm({ actions }) {
+    const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
     const [is_completed, setIsCompleted] = useState('0');
     const dispatch = useDispatch();
 
-    const { toggleClick, setToggle, page, limit } = actions;
+    const { toggleClick, setToggle, fk_task_list, page, limit } = actions;
 
     const reset = () => {
-        setName('');
+        setTitle('');
         setDescription('');
         setIsCompleted('0');
     }
@@ -24,9 +24,9 @@ function CreateTaskListForm({ actions }) {
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        if(name.trim()){
-            dispatch(createTaskList({ name, description, is_completed, reset, setToggle }))
-            dispatch(getTaskList({ page, limit }))
+        if(title.trim()){
+            dispatch(createTasks({ fk_task_list, title, description, is_completed, reset, setToggle }))
+            dispatch(getTasks({ fk_task_list, page, limit }))
         }else{
             toast.error( "Name is required"  , {
                 position: "top-right",
@@ -41,10 +41,10 @@ function CreateTaskListForm({ actions }) {
         }
     }
 
-    const handleChange = ({target: {name, value, checked}}) => {
+    const handleChange = ({target: {name, value, checked }}) => {
         switch (name) {
-            case "name":
-                return setName(value);
+            case "title":
+                return setTitle(value);
 
             case "description":
                 return setDescription(value);
@@ -65,14 +65,14 @@ function CreateTaskListForm({ actions }) {
 
             <div className="form-group">
                 <label className={s.label}>
-                    <span className={s.spanLabel}>Name Task</span>
+                    <span className={s.spanLabel}>Title Tasks</span>
                     <input
-                        value={name}
+                        value={title}
                         onChange={handleChange}
                         type="text"
-                        name="name"
+                        name="title"
                         className={s.textField__input}
-                        placeholder="Enter name"/>
+                        placeholder="Enter title"/>
                 </label>
             </div>
             <div className="form-group">
@@ -108,4 +108,4 @@ function CreateTaskListForm({ actions }) {
     );
 }
 
-export default CreateTaskListForm;
+export default CreateTasksForm;

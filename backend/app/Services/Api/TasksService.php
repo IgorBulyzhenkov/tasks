@@ -4,6 +4,7 @@ namespace App\Services\Api;
 
 use App\Http\Requests\Api\TasksPostRequest;
 use App\Http\Requests\Api\TasksPutRequest;
+use App\Models\Api\TaskListUser;
 use App\Models\Api\Tasks;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
@@ -12,6 +13,24 @@ class TasksService extends BaseApiService
 {
     public function getTasks($request): \Illuminate\Http\JsonResponse
     {
+        $query      = Tasks::query();
+
+        $total      = $query->count();
+
+        if($total === 0){
+            return response()->json([
+                'success'   => false,
+                'message'   => 'No results found',
+                'data'      => []
+            ],200);
+        }
+
+        $taskListToUser = $this->getUserPermission($request->query('fk_task_list'), ['full', 'edit', 'view']);
+
+        if ($taskListToUser) {
+            return $taskListToUser;
+        }
+
         $taskListExists = Tasks::where('fk_task_list', $request->query('fk_task_list'))->exists();
 
         if (!$taskListExists) {
@@ -24,9 +43,7 @@ class TasksService extends BaseApiService
         $page       = (int)$request->query('page', 1);
         $limit      = (int)$request->query('limit', 10);
 
-        $query      = Tasks::query();
 
-        $total      = $query->count();
         $totalPages = ceil($total / $limit);
 
         $data       = collect([]);
@@ -39,15 +56,25 @@ class TasksService extends BaseApiService
             ->take($limit)
             ->get();
 
+        $taskListToUser = TaskListUser::query()
+            ->select('permission')
+            ->where([
+                'fk_user'       => auth()->id(),
+                'fk_task_list'  => $request->query('fk_task_list')
+            ])
+            ->first();
+
         foreach ($tasks as $task){
             $newData = [
                 'id'            => $task->id,
                 'title'         => $task->title,
                 'description'   => $task->description,
-                'is_completed'  => $task->iscompleted,
+                'is_completed'  => $task->is_completed,
                 'created_at'    => $task->created_at->format('d/m/Y H:i'),
                 'updated_at'    => $task->updated_at->format('d/m/Y H:i'),
-                'tasks_list'    => $task->fkTaskList->name,
+                'task_list'     => $task->fkTaskList->name,
+                'userName'      => $task->fkUser->name,
+                'permission'    => $taskListToUser->permission,
             ];
 
             $data[] = $newData;
@@ -149,7 +176,9 @@ class TasksService extends BaseApiService
                 'description'   => $tasks->description,
                 'tasks_list'    => $tasks->fkTaskList->name,
                 'created_at'    => $tasks->created_at->format('d/m/Y H:i'),
-                'is_completed'  => $tasks->is_completed
+                'is_completed'  => $tasks->is_completed,
+                'user'          => $tasks->fkUser->name,
+                'taskList'      => $tasks->fkTaskList->name,
             ]
         ], 200);
     }
