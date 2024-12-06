@@ -19,7 +19,7 @@
         <p style="font-size: 20px"> COMPOSER <span style="color: red">2.7</span></p>
     </li>
     <li>
-        <p style="font-size: 20px"> MySQL <span style="color: red">PostgreSQL</span></p>
+        <p style="font-size: 20px"> <span style="color: red">PostgreSQL</span></p>
     </li>
     <li>
         <p style="font-size: 20px"> NPM  <span style="color: red">10</span></p>
