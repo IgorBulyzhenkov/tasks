@@ -11,3 +11,4 @@ export const getTasksTotalPage = (state) => state.tasks?.total_pages;
 export const getTasksTotalRecords = (state) => state.tasks?.total_records;
 export const getTasksLimit = (state) => state.tasks.limit;
 export const getTaskListName = (state) => state.tasks?.taskList;
+export const getIsRefreshing = (state) => state.tasks.isRefreshing;

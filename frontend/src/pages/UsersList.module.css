@@ -19,7 +19,7 @@
 
 table {
     border-collapse: collapse;
-    width: 101%;
+    width: 100%;
     margin: 20px 0;
     font-size: 16px;
     text-align: center;
@@ -84,87 +84,14 @@ tbody tr:nth-child(odd) {
     }
 }
 
-.list {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
+.list{
     list-style: none;
-    padding: 0;
-    margin: 0;
+    display: flex;
+    align-items: center;
     justify-content: center;
-}
-
-.item {
-    margin: 5px;
-}
-
-.button {
-    display: inline-block;
-    padding: 5px 5px;
-    font-size: 13px;
-    font-weight: bold;
-    color: white;
-    background-color: #c0bfbf;
-    border: none;
-    border-radius: 5px;
-    text-decoration: none;
-    text-align: center;
-    transition: background-color 0.3s ease, transform 0.2s ease;
-}
-
-.button:hover,
-.button:focus{
-    background-color: #434e57;
-    transform: scale(1.05);
-}
-
-.buttonDelete {
-    display: inline-block;
-    padding: 5px 5px;
-    font-size: 13px;
-    font-weight: bold;
-    border: none;
-    border-radius: 5px;
-    text-decoration: none;
-    text-align: center;
-    transition: background-color 0.3s ease, transform 0.2s ease;
-    background-color: #ee606d;
-    color: white;
-    cursor: pointer;
-}
-
-.buttonDelete:hover,
-.buttonDelete:focus{
-    background-color: #c82333;
-    transform: scale(1.05);
-}
-
-.buttonAdd{
-    padding: 5px 15px;
-    background-color: #25d7fc8f;
-    border: 1px solid #0000ff47;
-    border-radius: 5px;
-    min-width: 150px;
-    margin-left: auto;
-    cursor: pointer;
-}
-
-.buttonAdd:hover,
-.buttonAdd:focus {
-    background-color: #57adbf8f;;
-    box-shadow: 0 0 8px;
-}
-
-.success{
-    color: green;
-}
-
-.noCheck{
-    color: red;
-}
-
-.btnContainer{
-    width: 50%;
+    flex-wrap: wrap;
+    padding: 0;
+    width: 100%;
 }
 
 .loader{

@@ -7,7 +7,7 @@ use App\Http\Controllers\Api\TaskListController;
 use App\Http\Controllers\Api\TaskListUserController;
 use App\Http\Controllers\Api\TasksController;
 use App\Http\Controllers\Api\VerifyController;
-use App\Http\Middleware\Api\ValidateToken;
+use App\Http\Middleware\Api\VerifyBearerTokenMiddleware;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -26,12 +26,16 @@ Route::prefix('/v1')->group(function () {
     Route::prefix('/auth')->group(function () {
         Route::post('/signup',              [RegisterController::class, 'signup']);
         Route::post('/login',               [AuthController::class, 'login']);
-
         Route::post('/verify-email',        [VerifyController::class, 'verify']);
         Route::post('/send-again',          [SendAgainController::class, 'sendAgain']);
     });
 
+    Route::middleware(VerifyBearerTokenMiddleware::class)->group(function () {
+        Route::get('/current-user',         [AuthController::class, 'user']);
+    });
+
     Route::middleware('auth:sanctum')->group(function(){
+
         Route::get('/logout',               [AuthController::class, 'logout']);
 
         Route::prefix('/task-list')->group(function () {
@@ -56,4 +60,5 @@ Route::prefix('/v1')->group(function () {
             Route::post('/bind',            [TaskListUserController::class, 'bindToTask']);
         });
     });
+
 });

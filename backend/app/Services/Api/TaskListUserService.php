@@ -34,7 +34,8 @@ class TaskListUserService extends BaseApiService
 
         foreach ($tasks as $task){
             $newData = [
-                'userName'      => $task->user->name,
+                'id'            => $task->user->id,
+                'name'          => $task->user->name,
                 'permission'    => $task->permission,
             ];
 
@@ -51,7 +52,8 @@ class TaskListUserService extends BaseApiService
     public function searchUser($request): \Illuminate\Http\JsonResponse
     {
         $users = User::query()
-            ->where('name', 'like', '%'. $request->query('name'). '%')
+            ->where('name', 'like', '%' . $request->query('name') . '%')
+            ->where('verification_token', null)
             ->get();
 
         $data = collect([]);
@@ -60,8 +62,8 @@ class TaskListUserService extends BaseApiService
 
             if($user->id !== auth()->id()){
                 $newData = [
-                    'userName'      => $user->name,
-                    'id'            => $user->id,
+                    'name'  => $user->name,
+                    'id'    => $user->id,
                 ];
 
                 $data[] = $newData;
@@ -93,6 +95,18 @@ class TaskListUserService extends BaseApiService
                 ], 400);
             }
 
+            $taskListUserModel = TaskListUser::query()->where([
+                'fk_task_list'  => $data->fk_task_list,
+                'fk_user'       => $data->fk_user
+            ])->first();
+
+            if($taskListUserModel){
+                return response()->json([
+                    'status'    => false,
+                    'message'   => 'User already binded!'
+                ], 400);
+            }
+
             $bindModel = new TaskListUser();
 
             $bindModel->fill([
@@ -110,7 +124,6 @@ class TaskListUserService extends BaseApiService
                 Mail::to($userModel->fresh()->email)
                     ->send(new BindToTaskMail($userModel->fresh(), $taskModel->fresh()));
             }
-
 
             DB::commit();
 

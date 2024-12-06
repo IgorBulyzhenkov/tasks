@@ -6,7 +6,8 @@ const {
     sendEmailAgain,
     verifyEmailUser,
     logOutUser,
-    login
+    login,
+    getCurrentUser
 } = user;
 
 const initialState = {
@@ -47,6 +48,7 @@ const userSlice = createSlice({
         builder
             .addCase(sendEmailAgain.fulfilled, (state, {payload}) => {
                 state.verificationToken     = payload.data.verificationToken;
+                state.isRefreshing          = false;
             })
             .addCase(sendEmailAgain.rejected, (state, {payload}) => {
                 state.error                 = payload?.error || "An unknown error occurred";
@@ -114,6 +116,31 @@ const userSlice = createSlice({
             .addCase(login.pending, (state) => {
                 state.error                 = null;
                 state.isRefreshing          = true;
+            });
+
+        builder
+            .addCase(getCurrentUser.fulfilled, (state, {payload}) => {
+                state.name                  = payload.data.data.name;
+                state.nickName              = payload.data.data.nickName;
+                state.email                 = payload.data.data.email;
+                state.isRefreshing          = false;
+                state.token                 = payload.data.data.token;
+                state.verify                = payload.data.data.verify;
+                state.isLoggedIn            = true;
+            })
+            .addCase(getCurrentUser.rejected, (state,{payload}) => {
+                state.name                  = null;
+                state.nickName              = null;
+                state.email                 = null;
+                state.isRefreshing          = false;
+                state.token                 = null;
+                state.verify                = false;
+                state.isLoggedIn            = false;
+                state.error                 = payload?.error || "An unknown error occurred";
+            })
+            .addCase(getCurrentUser.pending, (state) => {
+                state.isRefreshing          = true;
+                state.error                 = null;
             });
     }
 });

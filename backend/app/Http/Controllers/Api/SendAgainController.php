@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 
 class SendAgainController extends Controller
 {
-    protected $sendAgainService;
+    protected SendAgainService $sendAgainService;
 
     public function __construct(SendAgainService $sendAgainService){
         $this->sendAgainService = $sendAgainService;

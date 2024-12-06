@@ -82,6 +82,24 @@ const logOutUser = createAsyncThunk('user/logOut', async (_, {getState, rejectWi
     }
 });
 
+const getCurrentUser = createAsyncThunk('user/getCurrentUser', async (_, {getState, rejectWithValue}) => {
+    try{
+        const state = getState();
+        const persistorToken = state.user.token;
+        if (persistorToken !== null ) token.set(persistorToken);
+
+        const data = await axios.get('/current-user');
+        token.unset();
+
+        return data;
+    }catch(error){
+
+        getCheckoutError(error);
+
+        return rejectWithValue(error.response.data.errors);
+    }
+});
+
 function getCheckoutError(error){
     if(error.response.data.errors){
         for (const e in error.response.data.errors) {
@@ -127,7 +145,8 @@ const user  = {
     sendEmailAgain,
     verifyEmailUser,
     logOutUser,
-    login
+    login,
+    getCurrentUser
 }
 
 export default user;

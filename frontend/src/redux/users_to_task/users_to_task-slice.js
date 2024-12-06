@@ -10,7 +10,8 @@ const {
 const initialState = {
     usersData: [],
     isLoading: false,
-    isError: false
+    isError: false,
+    isRefreshing: false
 }
 
 const usersSlice = createSlice({
@@ -19,53 +20,59 @@ const usersSlice = createSlice({
     extraReducers: ( builder) => {
         builder
             .addCase(searchUsers.fulfilled, (state, {payload}) => {
-                state.usersData     = payload.data.data;
+                state.usersData     = payload.data;
                 state.isError       = false;
                 state.isLoading     = true;
+                state.isRefreshing  = false;
             })
             .addCase(searchUsers.rejected, (state, {payload}) => {
                 state.usersData     = [];
                 state.isError       = payload?.error || "An unknown error occurred";
                 state.isLoading     = false;
+                state.isRefreshing  = false;
             })
             .addCase(searchUsers.pending, (state) => {
                 state.usersData     = [];
                 state.isError       = false;
                 state.isLoading     = false;
+                state.isRefreshing  = true;
             })
 
         builder
             .addCase(getUsersList.fulfilled, (state, {payload}) => {
-                state.usersData     = payload.data.data;
+                state.usersData     = payload.data;
                 state.isError       = false;
                 state.isLoading     = true;
+                state.isRefreshing  = false;
             })
             .addCase(getUsersList.rejected, (state, {payload}) => {
                 state.usersData     = [];
                 state.isError       = payload?.error || "An unknown error occurred";
                 state.isLoading     = false;
+                state.isRefreshing  = false;
             })
             .addCase(getUsersList.pending, (state) => {
                 state.usersData     = [];
                 state.isError       = false;
                 state.isLoading     = false;
+                state.isRefreshing  = true;
             })
 
         builder
             .addCase(bindUserToTask.fulfilled, (state) => {
-                state.usersData     = [];
                 state.isError       = false;
                 state.isLoading     = true;
+                state.isRefreshing  = false;
             })
             .addCase(bindUserToTask.rejected, (state, {payload}) => {
-                state.usersData     = [];
                 state.isError       = payload?.error || "An unknown error occurred";
                 state.isLoading     = false;
+                state.isRefreshing  = false;
             })
             .addCase(bindUserToTask.pending, (state) => {
-                state.usersData     = [];
                 state.isError       = false;
                 state.isLoading     = false;
+                state.isRefreshing  = true;
             })
     }
 });

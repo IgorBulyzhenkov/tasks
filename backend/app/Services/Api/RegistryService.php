@@ -25,7 +25,7 @@ class RegistryService
             if ($validator->fails()) {
                 return response()->json([
                     'success' => false,
-                    'errors' => $validator->errors()->getMessages()
+                    'message' => $validator->errors()->getMessages()
                 ], 400);
             }
 

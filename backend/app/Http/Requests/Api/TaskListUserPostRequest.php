@@ -24,7 +24,7 @@ class TaskListUserPostRequest extends FormRequest
         return [
             'fk_user'       => ['required', 'string', 'exists:users,id'],
             'fk_task_list'  => ['required', 'string', 'exists:task_list,id'],
-            'permission'    => ['required', 'in:edit,view,edit_list'],
+            'permission'    => ['required', 'in:edit,view,view_list'],
         ];
     }
 }

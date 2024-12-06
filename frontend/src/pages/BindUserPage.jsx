@@ -1,12 +1,12 @@
-import {useSelector} from "react-redux";
-import LoginForm from "../component/Form/LoginForm";
+import s from "./BindUserPage.module.css";
 import Container from "../component/Container/Container";
-import s from "./LoginPage.module.css";
-import { getIsRefresh } from "../redux/user/user-selectors";
+import BindUserForm from "../component/Form/BindUserForm";
+import {useSelector} from "react-redux";
+import { getIsRefreshing } from "../redux/users_to_task/users_to_task-selectors";
 import PulseLoader from "react-spinners/PulseLoader";
 
-function LoginPage() {
-    const isRefresh = useSelector(getIsRefresh);
+function BindUserPage() {
+    const isRefresh = useSelector(getIsRefreshing);
 
     return (
         <main className={s.main}>
@@ -17,10 +17,11 @@ function LoginPage() {
                     </div>
                     : null
                 }
-                <LoginForm/>
+                <h1> Bind User Page </h1>
+                <BindUserForm/>
             </Container>
         </main>
     );
 }
 
-export default LoginPage;
+export default BindUserPage;

@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Services\Api;
+
 use App\Http\Requests\Api\LoginPostRequest;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
@@ -10,7 +11,6 @@ class AuthService
 {
     public function auth($userRequest): \Illuminate\Http\JsonResponse
     {
-
         $request    = new LoginPostRequest();
 
         $rules      = $request->rules();
@@ -20,7 +20,7 @@ class AuthService
         if($validator->fails()){
             return response()->json([
                 'success'   => false,
-                'errors'    => $validator
+                'message'   => $validator
                     ->errors()
                     ->getMessages()
             ], 400);
@@ -30,7 +30,6 @@ class AuthService
             ->where('email', $userRequest->email)
             ->first();
 
-        // Проверить существование пользователя и правильность пароля
         if (!$user || !Hash::check($userRequest->password, $user->password)) {
             return response()->json([
                 'success' => false,

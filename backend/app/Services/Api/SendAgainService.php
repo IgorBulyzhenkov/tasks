@@ -18,7 +18,7 @@ class SendAgainService
         if($validator->fails()){
             return response()->json([
                 'success'   => false,
-                'errors'    => $validator->errors()
+                'message'   => $validator->errors()
             ],400);
         }
 
@@ -45,7 +45,7 @@ class SendAgainService
 
         return response()->json([
             'success'   => false,
-            'error'     => 'Email not found'
+            'message'   => 'Email not found'
         ], 400);
     }
 }

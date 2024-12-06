@@ -27,4 +27,9 @@ class TaskListUser extends Model
     {
         return $this->belongsTo(TaskList::class, 'fk_task_list', 'id');
     }
+
+    public function taskListUsers(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(TaskList::class, 'fk_task_list', 'id');
+    }
 }

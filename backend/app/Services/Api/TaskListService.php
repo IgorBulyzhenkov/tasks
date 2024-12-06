@@ -43,7 +43,12 @@ class TaskListService extends BaseApiService
 
         $data = $taskLists->map(function ($task) {
 
-            $userWithPermission = $task->usersWithPermission->first();
+            $user = $task->user()->where('fk_user', auth()->id())->first();
+
+            $userCreated = $task->user()->where([
+                'fk_task_list'  => $task->id,
+                'permission'    => 'full'
+            ])->first();
 
             return [
                 'id'            => $task->id,
@@ -52,8 +57,8 @@ class TaskListService extends BaseApiService
                 'is_completed'  => $task->is_completed,
                 'created_at'    => $task->created_at->format('d/m/Y H:i'),
                 'updated_at'    => $task->updated_at->format('d/m/Y H:i'),
-                'user'          => $userWithPermission->name ?? null,
-                'permission'    => $userWithPermission->pivot->permission ?? null,
+                'user'          => $userCreated->name,
+                'permission'    => $user->pivot->permission,
             ];
         });
 
@@ -115,7 +120,7 @@ class TaskListService extends BaseApiService
                     'description'   => $taskListModel->description,
                     'created_at'    => $taskListModel->created_at->format('d/m/Y H:i'),
                     'is_completed'  => $taskListModel->is_completed,
-                    'user'          => $taskListModel->fkUser->name
+                    'user'          => auth()->user()->name
                 ]
             ], 201);
 
@@ -125,7 +130,7 @@ class TaskListService extends BaseApiService
             return response()->json([
                 'success' => false,
                 'message' => $exception->getMessage()
-            ],200);
+            ],400);
         }
     }
 
@@ -149,6 +154,11 @@ class TaskListService extends BaseApiService
             return $taskListToUser;
         }
 
+        $userCreated = $task_list->user()->where([
+            'fk_task_list'  => $task_list->id,
+            'permission'    => 'full'
+        ])->first();
+
         return response()->json([
             'success'   => true,
             'message'   => 'show task',
@@ -158,7 +168,7 @@ class TaskListService extends BaseApiService
                 'description'   => $task_list->description,
                 'created_at'    => $task_list->created_at->format('d/m/Y H:i'),
                 'is_completed'  => $task_list->is_completed,
-                'user'          => $task_list->fkUser->name
+                'user'          => $userCreated->name
             ]
         ], 200);
     }
@@ -203,6 +213,11 @@ class TaskListService extends BaseApiService
 
         $taskListModel->update();
 
+        $userCreated = $taskListModel->user()->where([
+            'fk_task_list'  => $taskListModel->id,
+            'permission'    => 'full'
+        ])->first();
+
         return response()->json([
             'success'   => true,
             'message'   => 'update task',
@@ -212,7 +227,7 @@ class TaskListService extends BaseApiService
                 'description'   => $taskListModel->description,
                 'created_at'    => $taskListModel->created_at->format('d/m/Y H:i'),
                 'is_completed'  => $taskListModel->is_completed,
-                'user'          => $taskListModel->fkUser->name
+                'user'          => $userCreated->name
             ]
         ], 200);
 

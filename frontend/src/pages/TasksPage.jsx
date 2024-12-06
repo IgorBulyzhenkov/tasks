@@ -8,10 +8,12 @@ import CreateTasksModal from "../component/Modals/CreateTasks";
 import {
     getDataTasks,
     getTasksCurrentPage,
-    getTasksTotalPage
+    getTasksTotalPage,
+    getIsRefreshing
 } from "../redux/tasks/tasks-selectors";
 import { BsFillBookmarkCheckFill, BsFillBookmarkXFill } from "react-icons/bs";
 import Pagination from "../component/Pagination/Pagination";
+import PulseLoader from "react-spinners/PulseLoader";
 
 const { getTasks, destroyTasks } = tasks;
 
@@ -25,6 +27,7 @@ function TasksPage (){
     const currentPage = useSelector(getTasksCurrentPage);
     const totalPages = useSelector(getTasksTotalPage);
     const location = useLocation();
+    const isRefresh = useSelector(getIsRefreshing);
 
     const params = new URLSearchParams(location.search);
     const page = parseInt(params.get("page"), 10) || 1;
@@ -38,6 +41,7 @@ function TasksPage (){
         e.stopPropagation();
         if (e.target === e.currentTarget) {
             if (toggle === true) {
+                elBody.classList.remove("hidden");
                 return setToggle(false);
             }
             setToggle(true);
@@ -61,6 +65,13 @@ function TasksPage (){
     return (
         <main className={s.main}>
             <Container>
+
+                {isRefresh ?
+                    <div className={s.loader}>
+                        <PulseLoader color="#02172a" className="spinier"/>
+                    </div>
+                    : null
+                }
 
                 <h1> Tasks </h1>
                 <button onClick={toggleClick} className={s.buttonAdd}>Add task</button>

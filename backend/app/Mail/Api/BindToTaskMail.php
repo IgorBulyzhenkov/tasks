@@ -48,7 +48,7 @@ class BindToTaskMail extends Mailable
         return new Content(
             view: 'api.emails.bindToTask',
             with: [
-                'userName'  => $this->user->name,
+                'userName'      => $this->user->name,
                 'taskListName'  => $this->taskList->name
             ]
         );

@@ -8,10 +8,12 @@ import CreateTaskModal from "../component/Modals/CreateTaskList";
 import {
     getDataTaskList,
     getCurrentPage,
-    getTotalPage
+    getTotalPage,
+    getIsRefreshing
 } from "../redux/task_list/task_list-selectors";
 import { BsFillBookmarkCheckFill, BsFillBookmarkXFill } from "react-icons/bs";
 import Pagination from "../component/Pagination/Pagination";
+import PulseLoader from "react-spinners/PulseLoader";
 
 const { getTaskList, destroyTaskList, getOneTaskList } = taskList;
 
@@ -24,7 +26,7 @@ function TaskList() {
     const currentPage = useSelector(getCurrentPage);
     const totalPages = useSelector(getTotalPage);
     const navigate = useNavigate();
-
+    const isRefresh = useSelector(getIsRefreshing);
     const params = new URLSearchParams(location.search);
     const page = parseInt(params.get("page"), 10) || 1;
     const limit = parseInt(params.get("limit"), 10) || 10;
@@ -38,6 +40,7 @@ function TaskList() {
         e.stopPropagation();
         if (e.target === e.currentTarget) {
             if (toggle === true) {
+                elBody.classList.remove("hidden");
                 return setToggle(false);
             }
             setToggle(true);
@@ -45,7 +48,7 @@ function TaskList() {
         }
     }
 
-    const deleteTaskList = ({target : {id}}) => {
+    const deleteTaskList = ({target : { id }}) => {
         dispatch(destroyTaskList({ id }));
         dispatch(getTaskList({ page, limit }));
     }
@@ -61,6 +64,13 @@ function TaskList() {
     return (
         <main className={s.main}>
             <Container>
+
+                {isRefresh ?
+                    <div className={s.loader}>
+                        <PulseLoader color="#02172a" className="spinier"/>
+                    </div>
+                    : null
+                }
 
                 <h1> Task List </h1>
 
@@ -84,12 +94,12 @@ function TaskList() {
                                     <td>{task.id}</td>
                                     <td>{task.name}</td>
                                     <td>
-                                        {task.is_completed ?
+                                        {task.is_completed === '0' ?
                                             <BsFillBookmarkCheckFill className={s.success}/> :
                                             <BsFillBookmarkXFill className={s.noCheck}/>}
                                     </td>
                                     <td>{task.created_at}</td>
-                                    <td>
+                                    <td className={s.btnContainer}>
                                         <ul className={s.list}>
                                             {(task.permission === 'full' || task.permission === 'view') ?
                                                 <li className={s.item}>
@@ -102,7 +112,7 @@ function TaskList() {
                                                 </li> : null
                                             }
                                             {(task.permission === 'full' || task.permission === 'edit') ?
-                                                <li>
+                                                <li className={s.item}>
                                                     <NavLink
                                                         to={`/task-list/edit/${task.id}`}
                                                         className={s.button}
@@ -112,7 +122,7 @@ function TaskList() {
                                                 </li> : null
                                             }
                                             {(task.permission === 'full' || task.permission === 'edit' || task.permission === 'view') ?
-                                                <li>
+                                                <li className={s.item}>
                                                     <NavLink
                                                         to={`/tasks/list/${task.id}`}
                                                         className={s.button}
@@ -122,17 +132,27 @@ function TaskList() {
                                                 </li> : null
                                             }
                                             {(task.permission === 'full' || task.permission === 'view_list') ?
-                                                <li>
+                                                <li className={s.item}>
                                                     <NavLink
-                                                        to={`/`}
+                                                        to={`/users-list/${task.id}`}
                                                         className={s.button}
                                                     >
                                                         User List
                                                     </NavLink>
                                                 </li> : null
                                             }
+                                            {(task.permission === 'full' || task.permission === 'edit') ?
+                                                <li className={s.item}>
+                                                    <NavLink
+                                                        to={`/users/bind/${task.id}`}
+                                                        className={s.button}
+                                                    >
+                                                        Bind user
+                                                    </NavLink>
+                                                </li> : null
+                                            }
                                             {task.permission === 'full' ?
-                                                <li>
+                                                <li className={s.item}>
                                                     <button type='button' onClick={deleteTaskList} id={task.id}
                                                             className={s.buttonDelete}>Delete
                                                     </button>
