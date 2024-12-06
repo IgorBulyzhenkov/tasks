@@ -48,6 +48,7 @@ const userSlice = createSlice({
         builder
             .addCase(sendEmailAgain.fulfilled, (state, {payload}) => {
                 state.verificationToken     = payload.data.verificationToken;
+                state.isRefreshing          = false;
             })
             .addCase(sendEmailAgain.rejected, (state, {payload}) => {
                 state.error                 = payload?.error || "An unknown error occurred";

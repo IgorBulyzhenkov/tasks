@@ -57,8 +57,8 @@ const bindUserToTask = createAsyncThunk('users_to_task/bindUserToTask', async ({
     try {
         const { data } = await axios.post('/users/bind', body);
 
-        if(data.data.message){
-            getToastSuccess(data.data.message);
+        if(data.message){
+            getToastSuccess(data.message);
         }
 
         return data;

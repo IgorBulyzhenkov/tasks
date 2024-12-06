@@ -24,7 +24,6 @@ function BindUserForm() {
     const [toggle, setToggle] = useState(false);
     const [fkUser, setFkUser] = useState(null);
     const [permission, setPermission] = useState(null);
-    const navigator = useNavigate();
     const elBody = document.querySelector("body");
 
     useEffect(() => {
@@ -62,18 +61,9 @@ function BindUserForm() {
         e.preventDefault();
 
         if(fkUser && fk_task_list && permission){
+            setToggle(false);
+            elBody.classList.remove("hidden");
             dispatch(bindUserToTask({ fk_user: fkUser, fk_task_list, permission}));
-            navigator('/task_list');
-            toast.success( "User added successfully"  , {
-                position: "top-right",
-                autoClose: 5000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                theme: "light",
-            });
             return;
         }
 
@@ -93,6 +83,7 @@ function BindUserForm() {
         e.stopPropagation();
         if (e.target === e.currentTarget) {
             if (toggle === true) {
+                elBody.classList.remove("hidden");
                 return setToggle(false);
             }
             setToggle(true);

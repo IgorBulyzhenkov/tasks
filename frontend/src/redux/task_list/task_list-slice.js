@@ -145,6 +145,7 @@ const taskListSlice = createSlice({
                 state.isError       = null;
                 state.isLoading     = true;
                 state.isRefreshing  = false;
+                state.tasksData     = [];
             })
             .addCase(destroyTaskList.rejected, (state, { payload } ) => {
                 state.isError       = payload?.error || "An unknown error occurred";

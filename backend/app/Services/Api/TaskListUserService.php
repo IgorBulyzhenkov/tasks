@@ -54,10 +54,6 @@ class TaskListUserService extends BaseApiService
         $users = User::query()
             ->where('name', 'like', '%' . $request->query('name') . '%')
             ->where('verification_token', null)
-            ->whereNotIn('id', function ($query) {
-                $query->select('fk_user')
-                    ->from('task_list_user');
-            })
             ->get();
 
         $data = collect([]);
@@ -99,6 +95,18 @@ class TaskListUserService extends BaseApiService
                 ], 400);
             }
 
+            $taskListUserModel = TaskListUser::query()->where([
+                'fk_task_list'  => $data->fk_task_list,
+                'fk_user'       => $data->fk_user
+            ])->first();
+
+            if($taskListUserModel){
+                return response()->json([
+                    'status'    => false,
+                    'message'   => 'User already binded!'
+                ], 400);
+            }
+
             $bindModel = new TaskListUser();
 
             $bindModel->fill([
@@ -116,7 +124,6 @@ class TaskListUserService extends BaseApiService
                 Mail::to($userModel->fresh()->email)
                     ->send(new BindToTaskMail($userModel->fresh(), $taskModel->fresh()));
             }
-
 
             DB::commit();
 

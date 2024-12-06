@@ -19,7 +19,7 @@ function Permission({ props }) {
                 </label>
                 <label className={s.label}>
                     View List User
-                    <input className={s.input} type="radio" name='permission' onChange={handleChangeUser} data-id="veiw_list"/>
+                    <input className={s.input} type="radio" name='permission' onChange={handleChangeUser} data-id="view_list"/>
                 </label>
 
                 <button type="submit" className={s.saveBtn}>Save</button>

@@ -41,6 +41,7 @@ function TasksPage (){
         e.stopPropagation();
         if (e.target === e.currentTarget) {
             if (toggle === true) {
+                elBody.classList.remove("hidden");
                 return setToggle(false);
             }
             setToggle(true);

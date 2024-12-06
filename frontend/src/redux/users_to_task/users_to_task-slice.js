@@ -60,19 +60,16 @@ const usersSlice = createSlice({
 
         builder
             .addCase(bindUserToTask.fulfilled, (state) => {
-                state.usersData     = [];
                 state.isError       = false;
                 state.isLoading     = true;
                 state.isRefreshing  = false;
             })
             .addCase(bindUserToTask.rejected, (state, {payload}) => {
-                state.usersData     = [];
                 state.isError       = payload?.error || "An unknown error occurred";
                 state.isLoading     = false;
                 state.isRefreshing  = false;
             })
             .addCase(bindUserToTask.pending, (state) => {
-                state.usersData     = [];
                 state.isError       = false;
                 state.isLoading     = false;
                 state.isRefreshing  = true;

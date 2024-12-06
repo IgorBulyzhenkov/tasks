@@ -13,9 +13,7 @@ class TasksService extends BaseApiService
 {
     public function getTasks($request): \Illuminate\Http\JsonResponse
     {
-        $query      = Tasks::query();
-
-        $total      = $query->count();
+        $total = Tasks::query()->where('fk_task_list', $request->query('fk_task_list'))->count();
 
         if($total === 0){
             return response()->json([
@@ -31,14 +29,7 @@ class TasksService extends BaseApiService
             return $taskListToUser;
         }
 
-        $taskListExists = Tasks::where('fk_task_list', $request->query('fk_task_list'))->exists();
-
-        if (!$taskListExists) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Invalid task list ID.',
-            ], 400);
-        }
+        $query = Tasks::query();
 
         $page       = (int)$request->query('page', 1);
         $limit      = (int)$request->query('limit', 10);
