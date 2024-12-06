@@ -24,7 +24,15 @@ class AuthController extends Controller
     {
         if ($request->bearerToken()) {
             $token = PersonalAccessToken::findToken($request->bearerToken());
-            $token->delete();
+
+            if($token){
+                $token->delete();
+            }else{
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Unauthorized'
+                ], 401);
+            }
         }
 
         return response()->json([

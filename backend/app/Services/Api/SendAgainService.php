@@ -26,7 +26,7 @@ class SendAgainService
             ->where('email', $data->email)
             ->first();
 
-        if($user->id && !is_null($user->verification_token)){
+        if(!is_null($user) && !is_null($user->verification_token)){
             $user->fill([
                 'verification_token' => hash('sha256', $data->email)
             ]);
