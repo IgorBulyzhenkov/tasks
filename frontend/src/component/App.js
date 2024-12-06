@@ -1,15 +1,18 @@
 import {Route, Routes, Navigate, Router} from "react-router-dom";
-import {lazy, Suspense} from "react";
-import {useSelector} from "react-redux";
+import {lazy, Suspense, useEffect} from "react";
+import {useDispatch, useSelector} from "react-redux";
 import PrivateRouter from "./Routy/PrivateRouter";
 import PublicRouter from "./Routy/PublicRouter";
 import PulseLoader from "react-spinners/PulseLoader";
 import "./App.css";
-import {getInLoggedIn, getVerificationToken, getVerify} from "../redux/user/user-selectors";
+import {getInLoggedIn, getToken, getVerificationToken, getVerify} from "../redux/user/user-selectors";
 import {ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Header from "./Header/Header";
 import Footer from "./Footer/Footer";
+import user from "../redux/user/user-operation";
+
+const { getCurrentUser } = user;
 
 const Registration = lazy(() => import("../pages/RegistrationPage"));
 const Login = lazy(() => import("../pages/LoginPage"));
@@ -28,6 +31,14 @@ function App() {
     const verify = useSelector(getVerify);
     const verifyToken = useSelector(getVerificationToken);
     const isLoggedIn = useSelector(getInLoggedIn);
+    const token = useSelector(getToken);
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        if(token) {
+            dispatch(getCurrentUser());
+        }
+    }, []);
 
     return (
         <>

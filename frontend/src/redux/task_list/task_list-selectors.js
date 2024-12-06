@@ -10,3 +10,4 @@ export const getCurrentPage = (state) => state.task_list?.current_page;
 export const getTotalPage = (state) => state.task_list?.total_pages;
 export const getTotalRecords = (state) => state.task_list?.total_records;
 export const getLimit = (state) => state.task_list.limit;
+export const getIsRefreshing = (state) => state.task_list.isRefreshing;

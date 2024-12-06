@@ -93,3 +93,14 @@ tbody tr:nth-child(odd) {
     padding: 0;
     width: 100%;
 }
+
+.loader{
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #0000004d;
+    z-index: 10;
+}

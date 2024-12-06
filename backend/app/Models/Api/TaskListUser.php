@@ -18,18 +18,18 @@ class TaskListUser extends Model
         'permission'
     ];
 
-//    public function user(): \Illuminate\Database\Eloquent\Relations\BelongsTo
-//    {
-//        return $this->belongsTo(User::class, 'fk_user', 'id');
-//    }
-//
-//    public function taskList(): \Illuminate\Database\Eloquent\Relations\BelongsTo
-//    {
-//        return $this->belongsTo(TaskList::class, 'fk_task_list', 'id');
-//    }
-//
-//    public function taskListUsers(): \Illuminate\Database\Eloquent\Relations\BelongsTo
-//    {
-//        return $this->belongsTo(TaskList::class, 'fk_task_list', 'id');
-//    }
+    public function user(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(User::class, 'fk_user', 'id');
+    }
+
+    public function taskList(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(TaskList::class, 'fk_task_list', 'id');
+    }
+
+    public function taskListUsers(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(TaskList::class, 'fk_task_list', 'id');
+    }
 }

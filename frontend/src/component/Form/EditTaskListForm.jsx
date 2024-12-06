@@ -59,7 +59,7 @@ function EditTaskListForm() {
         }
     }
 
-    const handleChange = ({target: {name, value}}) => {
+    const handleChange = ({target: {name, value, checked}}) => {
         switch (name) {
             case "name":
                 return setName(value);
@@ -68,7 +68,8 @@ function EditTaskListForm() {
                 return setDescription(value);
 
             case "is_completed":
-                return setIsCompleted(value);
+                const completed = !checked ? '0' : '1';
+                return setIsCompleted(completed);
 
             default:
                 return;

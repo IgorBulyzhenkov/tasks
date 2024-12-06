@@ -4,10 +4,10 @@ import {useParams} from "react-router-dom";
 import {useEffect} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import users from "../redux/users_to_task/users_to_task-operation";
-import { getUsersData } from "../redux/users_to_task/users_to_task-selectors";
+import { getUsersData, getIsRefreshing } from "../redux/users_to_task/users_to_task-selectors";
 import task_list from "../redux/task_list/task_list-operation";
 import { getTaskListName } from "../redux/task_list/task_list-selectors";
-import {getIsLoading} from "../redux/tasks/tasks-selectors";
+import PulseLoader from "react-spinners/PulseLoader";
 
 const { getOneTaskList } = task_list;
 const { getUsersList } = users;
@@ -17,7 +17,7 @@ function UsersList() {
     const dispatch = useDispatch();
     const userData = useSelector(getUsersData);
     const taskName = useSelector(getTaskListName);
-    const isLoading = useSelector(getIsLoading);
+    const isRefresh = useSelector(getIsRefreshing);
 
     useEffect(() => {
         const id = fk_task_list;
@@ -29,6 +29,13 @@ function UsersList() {
     return (
         <main className={s.main}>
             <Container>
+
+                {isRefresh ?
+                    <div className={s.loader}>
+                        <PulseLoader color="#02172a" className="spinier"/>
+                    </div>
+                    : null
+                }
 
                 <h1> Users List </h1>
 

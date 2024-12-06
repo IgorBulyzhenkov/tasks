@@ -166,3 +166,14 @@ tbody tr:nth-child(odd) {
 .btnContainer{
     width: 50%;
 }
+
+.loader{
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #0000004d;
+    z-index: 10;
+}

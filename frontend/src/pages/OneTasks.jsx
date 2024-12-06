@@ -12,14 +12,17 @@ import {
     getTasksDescription,
     getTasksId,
     getIsLoading,
-    getTaskListName
+    getTaskListName,
+    getIsRefreshing
 } from "../redux/tasks/tasks-selectors";
+import PulseLoader from "react-spinners/PulseLoader";
 
 const { getOneTasks } = tasks;
 
 function OneTasks() {
     const { id } = useParams();
     const dispatch = useDispatch();
+    const isRefresh = useSelector(getIsRefreshing);
 
     const titleTask = useSelector(getTasksTitle);
     const descriptionTask = useSelector(getTasksDescription);
@@ -38,6 +41,12 @@ function OneTasks() {
     return (
         <main className={s.main}>
             <Container>
+                {isRefresh ?
+                    <div className={s.loader}>
+                        <PulseLoader color="#02172a" className="spinier"/>
+                    </div>
+                    : null
+                }
                 {isLoading ?
                     <>
                         <h1 className="task-title">{titleTask}</h1>
@@ -49,7 +58,7 @@ function OneTasks() {
                             <p><strong>Created By:</strong> {createdUser}</p>
                             <p><strong>Created At:</strong> {createdAt}</p>
                             <p>
-                                <strong>Status:</strong> {!isCompleted ? "Completed" : "Not Completed"}
+                                <strong>Status:</strong> {isCompleted === '1' ? "Completed" : "Not Completed"}
                             </p>
                         </div>
                     </> : ''

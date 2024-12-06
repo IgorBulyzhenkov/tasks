@@ -8,10 +8,12 @@ import CreateTaskModal from "../component/Modals/CreateTaskList";
 import {
     getDataTaskList,
     getCurrentPage,
-    getTotalPage
+    getTotalPage,
+    getIsRefreshing
 } from "../redux/task_list/task_list-selectors";
 import { BsFillBookmarkCheckFill, BsFillBookmarkXFill } from "react-icons/bs";
 import Pagination from "../component/Pagination/Pagination";
+import PulseLoader from "react-spinners/PulseLoader";
 
 const { getTaskList, destroyTaskList, getOneTaskList } = taskList;
 
@@ -24,7 +26,7 @@ function TaskList() {
     const currentPage = useSelector(getCurrentPage);
     const totalPages = useSelector(getTotalPage);
     const navigate = useNavigate();
-
+    const isRefresh = useSelector(getIsRefreshing);
     const params = new URLSearchParams(location.search);
     const page = parseInt(params.get("page"), 10) || 1;
     const limit = parseInt(params.get("limit"), 10) || 10;
@@ -45,7 +47,7 @@ function TaskList() {
         }
     }
 
-    const deleteTaskList = ({target : {id}}) => {
+    const deleteTaskList = ({target : { id }}) => {
         dispatch(destroyTaskList({ id }));
         dispatch(getTaskList({ page, limit }));
     }
@@ -61,6 +63,13 @@ function TaskList() {
     return (
         <main className={s.main}>
             <Container>
+
+                {isRefresh ?
+                    <div className={s.loader}>
+                        <PulseLoader color="#02172a" className="spinier"/>
+                    </div>
+                    : null
+                }
 
                 <h1> Task List </h1>
 
@@ -84,7 +93,7 @@ function TaskList() {
                                     <td>{task.id}</td>
                                     <td>{task.name}</td>
                                     <td>
-                                        {task.is_completed ?
+                                        {task.is_completed === '0' ?
                                             <BsFillBookmarkCheckFill className={s.success}/> :
                                             <BsFillBookmarkXFill className={s.noCheck}/>}
                                     </td>

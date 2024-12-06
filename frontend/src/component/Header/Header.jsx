@@ -36,7 +36,7 @@ function Header() {
             <Container>
                 <div className={s.headerContainer}>
 
-                    <Link to="/home">
+                    <Link to="/">
                         <img src={logo} alt="logo" className={s.logo}/>
                     </Link>
 

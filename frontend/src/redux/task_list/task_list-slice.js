@@ -48,6 +48,7 @@ const taskListSlice = createSlice({
                 state.total_pages   = payload.data.total_pages;
                 state.limit         = payload.data.limit;
                 state.current_page  = payload.data.current_page;
+                state.id            = null;
             })
             .addCase(getTaskList.rejected, (state, { payload } ) => {
                 state.isError       = payload?.error || "An unknown error occurred";
