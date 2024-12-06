@@ -66,6 +66,8 @@
 
 Clone the project and in the terminal go to the level with the backend and frontend folders
 
+You need to create a `.env` file. To register a user, you need to configure the parameters in the file. After registration, a letter is sent to the email address to verify the email.
+
 ### docker install
 
     docker-compose up -d
@@ -105,6 +107,8 @@ php artisan migrate:fresh --seed
 <p align="center">
  <img align="center" width="300" height="300" src="https://cdn-images-1.medium.com/max/512/1*6kK9j74vyOmXYm1gN6ARhQ.png">
 </p>
+
+
 
 ## INSTALL REACT
 
