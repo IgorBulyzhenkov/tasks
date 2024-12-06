@@ -382,6 +382,13 @@ Response `200 Ok`
       }
     }
 
+Bad Response `401 Unauthorized`
+
+    {
+      'success': bool,
+      'message': string
+    }
+
 Bad Response `403 Forbidden`
 
     {
@@ -426,6 +433,13 @@ Bad Response `400 Bad Request`
       'message': string
     }
 
+Bad Response `401 Unauthorized`
+
+    {
+      'success': bool,
+      'message': string
+    }
+
 Bad Response `403 Forbidden`
 
     {
@@ -463,6 +477,13 @@ Bad Response `400 Bad Request`
       'message': string
     }
 
+Bad Response `401 Unauthorized`
+
+    {
+      'success': bool,
+      'message': string
+    }
+
 Bad Response `403 Forbidden`
 
     {
@@ -477,7 +498,7 @@ Bad Response `404 Not Found`
       'message': string
     }
 
-### Update task list
+### Delete task list
 
 Request `DELETE /api/v1/task-list/{id}`
 
@@ -507,6 +528,321 @@ Bad Response `403 Forbidden`
     }
 
 Bad Response `404 Not Found`
+
+    {
+      'success': bool,
+      'message': string
+    }
+
+## Tasks list
+
+### Tasks list
+
+Request `GET /api/v1/tasks?fk_task_list={id}`
+
+    Authorization: Bearer Token
+
+Response `200 Ok`
+
+    {
+      "success": bool,
+      "data": {
+        "data": [
+            {
+                "id": number,
+                "title": string,
+                "description": null,
+                "is_completed": string,
+                "created_at": string,
+                "updated_at": string,
+                "task_list": string,
+                "userName": string,
+                "permission": string
+            }
+        ],
+        "current_page": number,
+        "limit": number,
+        "total_records": number,
+        "total_pages": number
+      }
+    }
+
+
+Bad Response `401 Unauthorized`
+
+    {
+      'success': bool,
+      'message': string
+    }
+
+### Tasks id
+
+Request `GET /api/v1/tasks/{id}`
+
+    Authorization: Bearer Token
+
+Response `200 Ok`
+
+      {
+      "success": bool,
+      "message": string,
+      "data": {
+        "id": number,
+        "title": string,
+        "description": null,
+        "tasks_list": string,
+        "created_at": string,
+        "is_completed": string,
+        "user": string,
+        "taskList": string
+      }
+    }
+
+Bad Response `401 Unauthorized`
+
+    {
+      'success': bool,
+      'message': string
+    }
+
+Bad Response `403 Forbidden`
+
+    {
+      'success': bool,
+      'message': string
+    }
+
+Bad Response `404 Not Found`
+
+    {
+      'success': bool,
+      'message': string
+    }
+
+### Create tasks
+
+Request `POST /api/v1/tasks`
+
+    Authorization: Bearer Token
+
+    `Body: { "title": string, "description": string, "is_completed": string, "fk_task_list": string  }`
+
+Response `201 Created`
+
+    {
+    "success": bool,
+    "data": {
+        "id": number
+    }
+}
+
+
+Bad Response `400 Bad Request`
+
+    {
+      'success': bool,
+      'message': string
+    }
+
+Bad Response `401 Unauthorized`
+
+    {
+      'success': bool,
+      'message': string
+    }
+
+Bad Response `403 Forbidden`
+
+    {
+      'success': bool,
+      'message': string
+    }
+
+### Update tasks
+
+Request `PUT /api/v1/tasks/{id}`
+
+    Authorization: Bearer Token
+
+    `Body: { "title": string, "description": string, "is_completed": string }`
+
+Response `200 OK`
+
+    {
+      "success": bool,
+      "message": string,
+      "data": string:id
+    }
+
+Bad Response `400 Bad Request`
+
+    {
+      'success': bool,
+      'message': string
+    }
+
+Bad Response `401 Unauthorized`
+
+    {
+      'success': bool,
+      'message': string
+    }
+
+Bad Response `403 Forbidden`
+
+    {
+      'success': bool,
+      'message': string
+    }
+
+Bad Response `404 Not Found`
+
+    {
+      'success': bool,
+      'message': string
+    }
+
+### Delete tasks
+
+Request `DELETE /api/v1/tasks/{id}`
+
+    Authorization: Bearer Token
+
+Response `204 No Content`
+
+Bad Response `400 Bad Request`
+
+    {
+      'success': bool,
+      'message': string
+    }
+
+Bad Response `401 Unauthorized`
+
+    {
+      'success': bool,
+      'message': string
+    }
+
+Bad Response `403 Forbidden`
+
+    {
+      'success': bool,
+      'message': string
+    }
+
+Bad Response `404 Not Found`
+
+    {
+      'success': bool,
+      'message': string
+    }
+
+## Users list
+
+### Users List
+
+PERMISSION  `'full', 'view_list'`
+
+Request `GET /api/v1/users?fk_task_list={id}`
+
+    Authorization: Bearer Token
+
+Response `200 OK`
+
+    {
+      "success": bool,
+      "message": string,
+      "data": [
+        {
+          "id": number,
+          "name": string,
+          "permission": string
+        },
+      ]
+    }
+
+Bad Response `400 Bad Request`
+
+    {
+      'success': bool,
+      'message': string
+    }
+
+Bad Response `401 Unauthorized`
+
+    {
+      'success': bool,
+      'message': string
+    }
+
+Bad Response `403 Forbidden`
+
+    {
+      'success': bool,
+      'message': string
+    }
+
+Bad Response `404 Not Found`
+
+    {
+      'success': bool,
+      'message': string
+    }
+
+### Search user
+
+PERMISSION  `'full', 'view_list', 'view', 'edit'`
+
+Request `GET /api/v1/users/search?name={name}`
+
+    Authorization: Bearer Token
+
+Response `200 OK`
+
+    {
+      "status": bool,
+      "data": [
+        {
+            "name": string,
+            "id": number
+        },
+      ]
+    }
+
+Bad Response `401 Unauthorized`
+
+    {
+      'success': bool,
+      'message': string
+    }
+
+
+### User bind to task
+
+PERMISSION  `'full', 'view_list', 'view', 'edit'`
+
+Request `POST /api/v1/users/bind`
+
+    Authorization: Bearer Token
+
+    Body: { "fk_user": string, "fk_task_list": string, "permission": string }
+
+Response `201 Created`
+
+    {
+    "status": bool,
+    "message": string
+}
+
+Bad Response `400 Bad Request`
+
+    {
+      'success': bool,
+      'message': string
+    }
+
+Bad Response `401 Unauthorized`
 
     {
       'success': bool,
