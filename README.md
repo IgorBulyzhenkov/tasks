@@ -13,19 +13,19 @@
         <p style="font-size: 20px"> LARAVEL  <span style="color: red">10</span></p>
     </li>
     <li>
-        <p style="font-size: 20px"> PHP <span style="color: red">8.1</span></p>
+        <p style="font-size: 20px"> PHP <span style="color: red">8.3</span></p>
     </li>
     <li>
-        <p style="font-size: 20px"> COMPOSER <span style="color: red">2.5.5</span></p>
+        <p style="font-size: 20px"> COMPOSER <span style="color: red">2.7</span></p>
     </li>
     <li>
-        <p style="font-size: 20px"> MySQL <span style="color: red">MariaDB-10.8</span></p>
+        <p style="font-size: 20px"> MySQL <span style="color: red">PostgreSQL</span></p>
     </li>
     <li>
-        <p style="font-size: 20px"> NPM  <span style="color: red">6.14.14</span></p>
+        <p style="font-size: 20px"> NPM  <span style="color: red">10</span></p>
     </li>
     <li>
-        <p style="font-size: 20px"> NODE.JS  <span style="color: red">min 14.17.4
+        <p style="font-size: 20px"> NODE.JS  <span style="color: red">min 18
     </span></p>
     </li>
 </ul>
