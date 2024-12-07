@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import s from './OneTasks.module.css';
 import tasks from "../redux/tasks/tasks-operation";
 import Container from "../component/Container/Container";
-import {useParams} from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import {
     getTasksTitle,
     getTasksCreatedAt,
@@ -23,6 +23,8 @@ function OneTasks() {
     const { id } = useParams();
     const dispatch = useDispatch();
     const isRefresh = useSelector(getIsRefreshing);
+    const navigate = useNavigate();
+    const location = useLocation();
 
     const titleTask = useSelector(getTasksTitle);
     const descriptionTask = useSelector(getTasksDescription);
@@ -37,6 +39,9 @@ function OneTasks() {
         dispatch(getOneTasks({ id }))
     }, []);
 
+    const handleClick = () => {
+        navigate(location.state.from, { replace: false });
+    };
 
     return (
         <main className={s.main}>
@@ -49,18 +54,35 @@ function OneTasks() {
                 }
                 {isLoading ?
                     <>
+
+                        <div className={s.containerBtn}>
+                            <button type="button" onClick={handleClick} className={s.btn}>
+                                Go back
+                            </button>
+                        </div>
+
                         <h1 className="task-title">{titleTask}</h1>
 
-                        <div className="task-info">
+                        <ul className={s.taskInfo}>
+                            <li className={s.taskInfo__item}>
                             <p><strong>Task ID:</strong> {idTask}</p>
-                            <p><strong>Description:</strong> {descriptionTask}</p>
-                            <p><strong>Task List:</strong> {taskList}</p>
-                            <p><strong>Created By:</strong> {createdUser}</p>
-                            <p><strong>Created At:</strong> {createdAt}</p>
-                            <p>
-                                <strong>Status:</strong> {isCompleted === '1' ? "Completed" : "Not Completed"}
-                            </p>
-                        </div>
+                            </li>
+                            <li className={s.taskInfo__item}>
+                                <p><strong>Description:</strong> {descriptionTask}</p>
+                            </li>
+                            <li className={s.taskInfo__item}>
+                                <p><strong>Task List:</strong> {taskList}</p>
+                            </li>
+                            <li className={s.taskInfo__item}>
+                                <p><strong>Created By:</strong> {createdUser}</p>
+                            </li>
+                            <li className={s.taskInfo__item}>
+                                <p><strong>Created At:</strong> {createdAt}</p>
+                            </li>
+                            <li className={s.taskInfo__item}>
+                                <p><strong>Status:</strong> {isCompleted === '1' ? "Completed" : "Not Completed"}</p>
+                            </li>
+                        </ul>
                     </> : ''
                 }
             </Container>

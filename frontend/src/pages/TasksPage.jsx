@@ -73,6 +73,15 @@ function TasksPage (){
                     : null
                 }
 
+                <div className={s.containerBtn}>
+                    <NavLink
+                        to='/task-list'
+                        className={s.btn}
+                    >
+                        Task List
+                    </NavLink>
+                </div>
+
                 <h1> Tasks </h1>
                 <button onClick={toggleClick} className={s.buttonAdd}>Add task</button>
 
@@ -104,7 +113,10 @@ function TasksPage (){
                                             {(task.permission === 'full' || task.permission === 'view') ?
                                                 <li>
                                                     <NavLink
-                                                        to={`/tasks/view/${task.id}`}
+                                                        to={{
+                                                            pathname: `/tasks/view/${task.id}`,
+                                                        }}
+                                                        state={{ from:`/tasks/list/${fk_task_list}` }}
                                                         className={s.button}
                                                     >
                                                         View
@@ -114,7 +126,10 @@ function TasksPage (){
                                             {(task.permission === 'full' || task.permission === 'edit') ?
                                                 <li>
                                                     <NavLink
-                                                        to={`/tasks/edit/${task.id}`}
+                                                        to={{
+                                                            pathname: `/tasks/edit/${task.id}`,
+                                                        }}
+                                                        state={{ from:`/tasks/list/${fk_task_list}` }}
                                                         className={s.button}
                                                     >
                                                         Edit

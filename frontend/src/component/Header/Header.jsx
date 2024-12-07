@@ -1,6 +1,6 @@
 import {useState} from "react";
 import s from "./Header.module.css";
-import logo from "../../images/sd_solutions.svg";
+import logo from "../../images/solid_sl_logo.png";
 import {Link, NavLink} from "react-router-dom";
 import Container from "../Container/Container";
 import {MdMenu, MdOutlineExitToApp} from "react-icons/md";

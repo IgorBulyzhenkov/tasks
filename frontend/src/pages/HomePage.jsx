@@ -11,18 +11,15 @@ function HomePage() {
     return (
         <main className={s.main}>
             <Container>
-                <ul className={s.list}>
-                    <li className={s.item}>
-                        <p className={s.text}>User Name</p>
-                        <p className={s.textUser}>{name}</p>
+                <ul className={s.taskInfo}>
+                    <li className={s.taskInfo__item}>
+                        <p><strong>User Name:</strong> {name}</p>
                     </li>
-                    <li className={s.item}>
-                        <p className={s.text}>User nick name</p>
-                        <p className={s.textUser}>{nickName}</p>
+                    <li className={s.taskInfo__item}>
+                        <p><strong>User nick name:</strong> {nickName}</p>
                     </li>
-                    <li className={s.item}>
-                        <p className={s.text}>Email</p>
-                        <p className={s.textUser}>{email}</p>
+                    <li className={s.taskInfo__item}>
+                        <p><strong>Email:</strong> {email}</p>
                     </li>
                 </ul>
             </Container>

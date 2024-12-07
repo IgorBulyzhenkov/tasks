@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import s from './OneTaskList.module.css';
 import taskList from "../redux/task_list/task_list-operation";
 import Container from "../component/Container/Container";
-import {useParams} from "react-router-dom";
+import {NavLink, useParams} from "react-router-dom";
 import {
     getTaskListName,
     getTaskListCreatedAt,
@@ -47,17 +47,34 @@ function OneTaskList() {
                 }
                 {isLoading ?
                     <>
+                        <div className={s.containerBtn}>
+                            <NavLink
+                                to='/task-list'
+                                className={s.btn}
+                            >
+                                Task List
+                            </NavLink>
+                        </div>
+
                         <h1 className="task-title">{nameTask}</h1>
 
-                        <div className="task-info">
-                            <p><strong>Task ID:</strong> {idTask}</p>
-                            <p><strong>Description:</strong> {descriptionTask}</p>
-                            <p><strong>Created By:</strong> {createdUser}</p>
-                            <p><strong>Created At:</strong> {createdAt}</p>
-                            <p>
-                                <strong>Status:</strong> {isCompleted === '1' ? "Completed" : "Not Completed"}
-                            </p>
-                        </div>
+                        <ul className={s.taskInfo}>
+                            <li className={s.taskInfo__item}>
+                                <p><strong>Task ID:</strong> {idTask}</p>
+                            </li>
+                            <li className={s.taskInfo__item}>
+                                <p><strong>Description:</strong> {descriptionTask}</p>
+                            </li>
+                            <li className={s.taskInfo__item}>
+                                <p><strong>Created By:</strong> {createdUser}</p>
+                            </li>
+                            <li className={s.taskInfo__item}>
+                                <p><strong>Created At:</strong> {createdAt}</p>
+                            </li>
+                            <li className={s.taskInfo__item}>
+                                <p><strong>Status:</strong> {isCompleted === '1' ? "Completed" : "Not Completed"}</p>
+                            </li>
+                        </ul>
                     </> : ''
                 }
             </Container>

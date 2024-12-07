@@ -1,6 +1,6 @@
 import s from './UsersList.module.css';
 import Container from "../component/Container/Container";
-import {useParams} from "react-router-dom";
+import {NavLink, useParams} from "react-router-dom";
 import {useEffect} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import users from "../redux/users_to_task/users_to_task-operation";
@@ -36,6 +36,15 @@ function UsersList() {
                     </div>
                     : null
                 }
+
+                <div className={s.containerBtn}>
+                    <NavLink
+                        to='/task-list'
+                        className={s.btn}
+                    >
+                        Task List
+                    </NavLink>
+                </div>
 
                 <h1> Users List </h1>
 
