@@ -1,16 +1,17 @@
-import {Route, Routes, Navigate, Router} from "react-router-dom";
+import {Route, Routes, Navigate} from "react-router-dom";
 import {lazy, Suspense, useEffect} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import PrivateRouter from "./Routy/PrivateRouter";
 import PublicRouter from "./Routy/PublicRouter";
 import PulseLoader from "react-spinners/PulseLoader";
 import "./App.css";
-import {getInLoggedIn, getToken, getVerificationToken, getVerify} from "../redux/user/user-selectors";
+import {getInLoggedIn, getToken, getVerificationToken, getVerify, getIsRefresh} from "../redux/user/user-selectors";
 import {ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Header from "./Header/Header";
 import Footer from "./Footer/Footer";
 import user from "../redux/user/user-operation";
+import s from "../pages/LoginPage.module.css";
 
 const { getCurrentUser } = user;
 
@@ -33,6 +34,7 @@ function App() {
     const isLoggedIn = useSelector(getInLoggedIn);
     const token = useSelector(getToken);
     const dispatch = useDispatch();
+    const isRefresh = useSelector(getIsRefresh);
 
     useEffect(() => {
         if(token) {
@@ -43,6 +45,12 @@ function App() {
     return (
         <>
             <div className="App">
+                {isRefresh ?
+                    <div className={s.loader}>
+                        <PulseLoader color="#02172a" className="spinier"/>
+                    </div>
+                    : null
+                }
                 <Header/>
                 <Suspense
                     fallback={
